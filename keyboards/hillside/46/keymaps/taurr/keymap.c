@@ -220,9 +220,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 UK_LT2, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, UK_RT2
     ),
 	[MOUSE] = LAYOUT(
-        UK_DEL, KC_NO, RGB_VAI, RGB_HUI, RGB_SPI, RGB_TOG,                                                KC_NO  , KC_WH_L, KC_MS_U, KC_WH_R, KC_NO  , UK_BSPC,
-        KC_NO , KC_NO, MS_BT1,  MS_BT2,  MS_BT3,  RGB_M_P,                                                KC_NO  , KC_MS_L, KC_MS_D, KC_MS_R, _______, KC_NO,
-        KC_NO , KC_NO, KC_BTN2, KC_BTN3, KC_BTN1, RGB_M_R,        UK_LT1,                     UK_RT1,     KC_NO  , KC_WH_U, KC_MS_D, KC_WH_D, KC_NO  , KC_NO,
+        UK_DEL,  KC_NO,   RGB_MOD, RGB_SPD, RGB_SPI, RGB_TOG,                                                KC_NO  , KC_WH_L, KC_MS_U, KC_WH_R, KC_NO  , UK_BSPC,
+        RGB_VAD, RGB_VAI, MS_BT1,  MS_BT2,  MS_BT3,  RGB_M_P,                                                KC_NO  , KC_MS_L, KC_MS_D, KC_MS_R, _______, KC_NO,
+        RGB_HUD, RGB_HUI, KC_BTN2, KC_BTN3, KC_BTN1, RGB_M_R,        UK_LT1,                     UK_RT1,     KC_NO  , KC_WH_U, KC_MS_D, KC_WH_D, KC_NO  , KC_NO,
                                                 UK_LT2, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, UK_RT2
     ),
 	[UTIL] = LAYOUT(
@@ -232,6 +232,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                     UK_LT2, TO(NUMB), TO(SYMB), TO(NAVI),     TO(MOUSE), TO(SYMB), TO(NUMB), UK_RT2
     ),
 };
+
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    layer_state_set_user(layer_state);
+}
 
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
@@ -244,31 +249,57 @@ bool caps_word_press_user(uint16_t keycode) {
             add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
             return true;
 
-        // Keycodes that continue Caps Word, without shifting.
-        case KC_1 ... KC_0:
-        case KC_BSPC:
-        case KC_DEL:
-        case KC_UNDS:
-            return true;
-
         default:
             return false; // Deactivate Caps Word.
     }
 }
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    // TODO: simplify this method if possible
-    static bool in_navi_layer = false;
-    static uint8_t modifiers;
+extern rgblight_config_t rgblight_config;
 
-    // disable all modifiers when entering the NAVI layer
-    if (in_navi_layer && !IS_LAYER_ON_STATE(state, NAVI)) {
-        in_navi_layer = false;
-        set_mods(modifiers);
-    } else if (!in_navi_layer && IS_LAYER_ON_STATE(state, NAVI)) {
-        in_navi_layer = true;
-        modifiers = get_mods();
-        del_mods(modifiers);
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case NUMB:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_noeeprom(HSV_RED);
+            break;
+        case SYMB:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_noeeprom(HSV_BLUE);
+            break;
+        case NAVI:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_noeeprom(HSV_PURPLE);
+            break;
+        case VSCODE:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_noeeprom(HSV_GREEN);
+            break;
+        case MOUSE:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_noeeprom(HSV_TEAL);
+            break;
+        case UTIL:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_noeeprom(HSV_YELLOW);
+            break;
+        default: //  for any other layers, or the default layer
+            // Read RGB Light State
+            rgblight_config.raw = eeconfig_read_rgblight();
+            // If enabled, set white
+            if (rgblight_config.enable) {
+                rgblight_reload_from_eeprom ();
+                // rgblight_enable_noeeprom();
+                //rgblight_sethsv_noeeprom(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
+            } else { // Otherwise go back to disabled
+                rgblight_disable_noeeprom();
+            }
+            break;
     }
     return state;
 }
@@ -511,7 +542,14 @@ Define Tap-Dance functions and the lookup table
 
 // GENERAL
 TDF_TAP(TD_LT1, tap_code(KC_ENTER))
-TDF_HOLD(TD_LT1, layer_on(UTIL), layer_off(UTIL))
+TDF_HOLD(
+    TD_LT1,
+    {
+        layer_on(UTIL);
+    },
+    {
+        layer_off(UTIL);
+    })
 
 TDF_TAP(TD_LT2, caps_word_on())
 
@@ -543,7 +581,7 @@ TDF_TAPHOLD(TD_RT5, layer_on(MOUSE), layer_off(MOUSE))
 TDF_TAP(TD_DELETE, tap_code(KC_DEL))
 TDF_HOLD(TD_DELETE, tap_code16(A(KC_DEL)), {})
 
-TDF_TAP(TD_BACKSPACE, tap_code(KC_BSPC) )
+TDF_TAP(TD_BACKSPACE, tap_code(KC_BSPC))
 TDF_HOLD(TD_BACKSPACE, tap_code16(A(KC_BSPC)), {})
 
 // NUMBER
@@ -582,10 +620,10 @@ TDF_TAP(TD_SYMB_BACKTICK, tap_code16(DK_GRV))
 TDF_HOLD(TD_SYMB_BACKTICK, register_code16(DK_ACUT), unregister_code16(DK_ACUT))
 TDF_TAPHOLD(TD_SYMB_BACKTICK, register_code16(DK_GRV), unregister_code16(DK_GRV))
 
-TDF_TAP(TD_SYMB_HALF, { tap_code16(DK_HALF); } )
-TDF_DTAP(TD_SYMB_HALF, { tap_code16(DK_PND); } )
-TDF_HOLD(TD_SYMB_HALF, { tap_code16(ALGR(KC_E)); }, {} )
-TDF_TAPHOLD(TD_SYMB_HALF, { tap_code16(DK_SECT); }, {} )
+TDF_TAP(TD_SYMB_HALF, { tap_code16(DK_HALF); })
+TDF_DTAP(TD_SYMB_HALF, { tap_code16(DK_PND); })
+TDF_HOLD(TD_SYMB_HALF, { tap_code16(ALGR(KC_E)); }, {})
+TDF_TAPHOLD(TD_SYMB_HALF, { tap_code16(DK_SECT); }, {})
 
 TDF_TAP(TD_SYMB_DELETE, tap_code16(C(KC_DEL)))
 TDF_TAP(TD_SYMB_BACKSPACE, tap_code16(C(KC_BSPC)))
@@ -597,32 +635,84 @@ TDF_TAP(TD_NAV_BACKSPACE, SEND_STRING(SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_T
 TDF_TAP(TD_PAU_INS, tap_code16(KC_PAUSE))
 TDF_DTAP(TD_PAU_INS, tap_code16(KC_INS))
 
-TDF_TAP(TD_REFERENCE, tap_code16(C(S(KC_F10))) )
-TDF_DTAP(TD_REFERENCE, tap_code16(KC_F12) )
-TDF_HOLD(TD_REFERENCE, tap_code16(S(KC_F12)), {} )
-TDF_TAPHOLD(TD_REFERENCE, SEND_STRING(SS_LALT(SS_LSFT(SS_TAP(X_F12)))), {} )
+TDF_TAP(TD_REFERENCE, tap_code16(C(S(KC_F10))))
+TDF_DTAP(TD_REFERENCE, tap_code16(KC_F12))
+TDF_HOLD(TD_REFERENCE, tap_code16(S(KC_F12)), {})
+TDF_TAPHOLD(TD_REFERENCE, SEND_STRING(SS_LALT(SS_LSFT(SS_TAP(X_F12)))), {})
 
-TDF_TAP(TD_VSCODE_UP, { tap_code16(C(KC_J)); tap_code16(KC_UP); } )
-TDF_DTAP(TD_VSCODE_UP, { tap_code16(C(KC_K)); tap_code16(KC_UP); } )
-TDF_HOLD(TD_VSCODE_UP, { tap_code16(C(KC_J)); tap_code16(A(C(KC_UP))); }, {} )
+TDF_TAP(TD_VSCODE_UP, {
+    tap_code16(C(KC_J));
+    tap_code16(KC_UP);
+})
+TDF_DTAP(TD_VSCODE_UP, {
+    tap_code16(C(KC_K));
+    tap_code16(KC_UP);
+})
+TDF_HOLD(TD_VSCODE_UP,
+         {
+             tap_code16(C(KC_J));
+             tap_code16(A(C(KC_UP)));
+         },
+         {})
 
-TDF_TAP(TD_VSCODE_DOWN, { tap_code16(C(KC_J)); tap_code16(KC_DOWN); } )
-TDF_DTAP(TD_VSCODE_DOWN, { tap_code16(C(KC_K)); tap_code16(KC_DOWN); } )
-TDF_HOLD(TD_VSCODE_DOWN, { tap_code16(C(KC_J)); tap_code16(A(C(KC_DOWN))); }, {} )
+TDF_TAP(TD_VSCODE_DOWN, {
+    tap_code16(C(KC_J));
+    tap_code16(KC_DOWN);
+})
+TDF_DTAP(TD_VSCODE_DOWN, {
+    tap_code16(C(KC_K));
+    tap_code16(KC_DOWN);
+})
+TDF_HOLD(TD_VSCODE_DOWN,
+         {
+             tap_code16(C(KC_J));
+             tap_code16(A(C(KC_DOWN)));
+         },
+         {})
 
-TDF_TAP(TD_VSCODE_LEFT, { tap_code16(C(KC_J)); tap_code16(KC_LEFT); } )
-TDF_DTAP(TD_VSCODE_LEFT, { tap_code16(C(KC_K)); tap_code16(KC_LEFT); } )
-TDF_HOLD(TD_VSCODE_LEFT, { tap_code16(C(KC_J)); tap_code16(A(C(KC_LEFT))); }, {} )
+TDF_TAP(TD_VSCODE_LEFT, {
+    tap_code16(C(KC_J));
+    tap_code16(KC_LEFT);
+})
+TDF_DTAP(TD_VSCODE_LEFT, {
+    tap_code16(C(KC_K));
+    tap_code16(KC_LEFT);
+})
+TDF_HOLD(TD_VSCODE_LEFT,
+         {
+             tap_code16(C(KC_J));
+             tap_code16(A(C(KC_LEFT)));
+         },
+         {})
 
-TDF_TAP(TD_VSCODE_RIGHT, { tap_code16(C(KC_J)); tap_code16(KC_RIGHT); } )
-TDF_DTAP(TD_VSCODE_RIGHT, { tap_code16(C(KC_K)); tap_code16(KC_RIGHT); } )
-TDF_HOLD(TD_VSCODE_RIGHT, { tap_code16(C(KC_J)); tap_code16(A(C(KC_RIGHT))); }, {} )
+TDF_TAP(TD_VSCODE_RIGHT, {
+    tap_code16(C(KC_J));
+    tap_code16(KC_RIGHT);
+})
+TDF_DTAP(TD_VSCODE_RIGHT, {
+    tap_code16(C(KC_K));
+    tap_code16(KC_RIGHT);
+})
+TDF_HOLD(TD_VSCODE_RIGHT,
+         {
+             tap_code16(C(KC_J));
+             tap_code16(A(C(KC_RIGHT)));
+         },
+         {})
 
-TDF_TAP(TD_VSCODE_TERMINAL, { tap_code16(C(KC_J));tap_code16(KC_HOME); } )
-TDF_DTAP(TD_VSCODE_TERMINAL, { tap_code16(C(DK_AE)); } )
-TDF_HOLD(TD_VSCODE_TERMINAL, { tap_code16(C(KC_K)); tap_code16(C(KC_H)); }, {} )
+TDF_TAP(TD_VSCODE_TERMINAL, {
+    tap_code16(C(KC_J));
+    tap_code16(KC_HOME);
+})
+TDF_DTAP(TD_VSCODE_TERMINAL, { tap_code16(C(DK_AE)); })
+TDF_HOLD(TD_VSCODE_TERMINAL,
+         {
+             tap_code16(C(KC_K));
+             tap_code16(C(KC_H));
+         },
+         {})
 
-TDF_TAP(TD_VSCODE_BREAD, tap_code16(C(S(KC_DOT))) )
+TDF_TAP(TD_VSCODE_BREAD, tap_code16(C(S(KC_DOT))))
 
 TDF_TAP(TD_NAVI_VSCODE, tap_code(KC_APP))
 TDF_HOLD(TD_NAVI_VSCODE, layer_on(VSCODE), layer_off(VSCODE))
@@ -637,50 +727,53 @@ TDF_HOLD(TD_MOUSE_2, register_code(KC_ACL1), unregister_code(KC_ACL1))
 TDF_TAP(TD_MOUSE_3, tap_code(KC_BTN1))
 TDF_HOLD(TD_MOUSE_3, register_code(KC_ACL2), unregister_code(KC_ACL2))
 
-TDF_TAP(TD_KVM_SWITCH, { SEND_STRING(SS_TAP(X_SCRL) SS_DELAY(25) SS_TAP(X_SCRL) SS_DELAY(25) "1"); } )
-TDF_DTAP(TD_KVM_SWITCH, { SEND_STRING(SS_TAP(X_SCRL) SS_DELAY(25) SS_TAP(X_SCRL) SS_DELAY(25) "2"); } )
+TDF_TAP(TD_KVM_SWITCH, { SEND_STRING(SS_TAP(X_SCRL) SS_DELAY(25) SS_TAP(X_SCRL) SS_DELAY(25) "1"); })
+TDF_DTAP(TD_KVM_SWITCH, { SEND_STRING(SS_TAP(X_SCRL) SS_DELAY(25) SS_TAP(X_SCRL) SS_DELAY(25) "2"); })
 
-TDF_TAP(TD_AUDIO_PLAY, { tap_code16(KC_MPLY); } )
+TDF_TAP(TD_AUDIO_PLAY, { tap_code16(KC_MPLY); })
 TDF_HOLD(TD_AUDIO_PLAY, { tap_code16(KC_MUTE); }, {})
 
-TDF_TAP(TD_PRINTSCREEN, { tap_code16(KC_PSCR); } )
-TDF_DTAP(TD_PRINTSCREEN, { tap_code16(A(KC_PSCR)); } )
-TDF_HOLD(TD_PRINTSCREEN, { tap_code16(G(KC_PSCR)); }, {} )
-TDF_TAPHOLD(TD_PRINTSCREEN, { tap_code16(G(S(KC_PSCR))); }, {} )
+TDF_TAP(TD_PRINTSCREEN, { tap_code16(KC_PSCR); })
+TDF_DTAP(TD_PRINTSCREEN, { tap_code16(A(KC_PSCR)); })
+TDF_HOLD(TD_PRINTSCREEN, { tap_code16(G(KC_PSCR)); }, {})
+TDF_TAPHOLD(TD_PRINTSCREEN, { tap_code16(G(S(KC_PSCR))); }, {})
 
-TDF_TAP(TD_BACK_META, { tap_code16(C(KC_SLSH)); } )
+TDF_TAP(TD_BACK_META, { tap_code16(C(KC_SLSH)); })
 TDF_HOLD(TD_BACK_META, register_code16(KC_LGUI), unregister_code16(KC_LGUI))
 
-TDF_TAP(TD_PREV_REF, { tap_code16(S(KC_F7)); } )
-TDF_DTAP(TD_PREV_REF, { tap_code16(C(S(KC_J))); } )
+TDF_TAP(TD_PREV_REF, { tap_code16(S(KC_F7)); })
+TDF_DTAP(TD_PREV_REF, { tap_code16(C(S(KC_J))); })
 TDF_HOLD(TD_PREV_REF, register_code16(KC_LCTL), unregister_code16(KC_LCTL))
 
-TDF_TAP(TD_FOLD, { tap_code16(C(KC_K)); tap_code16(C(KC_L)); } )
-TDF_DTAP(TD_FOLD, { tap_code16(A(C(S(KC_K)))); } )
+TDF_TAP(TD_FOLD, {
+    tap_code16(C(KC_K));
+    tap_code16(C(KC_L));
+})
+TDF_DTAP(TD_FOLD, { tap_code16(A(C(S(KC_K)))); })
 TDF_HOLD(TD_FOLD, register_code16(KC_LSFT), unregister_code16(KC_LSFT))
 
-TDF_TAP(TD_NEXT_REF, { tap_code16(KC_F7); } )
-TDF_DTAP(TD_NEXT_REF, { tap_code16(C(S(KC_L))); } )
+TDF_TAP(TD_NEXT_REF, { tap_code16(KC_F7); })
+TDF_DTAP(TD_NEXT_REF, { tap_code16(C(S(KC_L))); })
 TDF_HOLD(TD_NEXT_REF, register_code16(KC_LALT), unregister_code16(KC_LALT))
 
-TDF_DTAP(TD_NAVI_RT2, { tap_code16(C(KC_DOT)); } )
-TDF_TAP(TD_NAVI_RT2, { tap_code16(C(KC_SPC)); } )
+TDF_DTAP(TD_NAVI_RT2, { tap_code16(C(KC_DOT)); })
+TDF_TAP(TD_NAVI_RT2, { tap_code16(C(KC_SPC)); })
 
-TDF_TAP(TD_NAVI_COPY, { tap_code16(C(KC_C)); } )
+TDF_TAP(TD_NAVI_COPY, { tap_code16(C(KC_C)); })
 TDF_HOLD(TD_NAVI_COPY, register_code16(KC_LSFT), unregister_code16(KC_LSFT))
 
-TDF_TAP(TD_NAVI_CUT, { tap_code16(C(KC_X)); } )
+TDF_TAP(TD_NAVI_CUT, { tap_code16(C(KC_X)); })
 TDF_HOLD(TD_NAVI_CUT, register_code16(KC_LCTL), unregister_code16(KC_LCTL))
 
-TDF_TAP(TD_NAVI_PASTE, { tap_code16(C(KC_V)); } )
-TDF_DTAP(TD_NAVI_PASTE, { tap_code16(C(KC_D)); } )
+TDF_TAP(TD_NAVI_PASTE, { tap_code16(C(KC_V)); })
+TDF_DTAP(TD_NAVI_PASTE, { tap_code16(C(KC_D)); })
 TDF_HOLD(TD_NAVI_PASTE, register_code16(KC_LALT), unregister_code16(KC_LALT))
 
 TDF_TAP(TD_NAVI_UNDO, tap_code16(C(KC_Z)))
 TDF_HOLD(TD_NAVI_UNDO, register_code16(KC_LGUI), unregister_code16(KC_LGUI))
 
 TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
-    //caps_word_off();
+    // caps_word_off();
     unregister_code(KC_LCTL);
     unregister_code(KC_LSFT);
     unregister_code(KC_LALT);
