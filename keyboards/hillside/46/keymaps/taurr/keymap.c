@@ -6,12 +6,11 @@
 enum layers {
     COLE,
     NUMB,   // numberpad/Fx
+    SYMB,   // symbols
     NAVI,   // navigation
     VSCODE, // vscode shortcuts
     MOUSE,  // mouse navigation
-    SYMB,   // symbols
     UTIL,   // utility/media
-    NEW,
 };
 
 /*
@@ -33,30 +32,15 @@ enum {
     TD_DELETE,
     TD_BACKSPACE,
 
-    TD_LP1,
-    TD_RP1,
-
     // NUMBER
+    TD_NUM_4,
+    TD_NUM_5,
+    TD_NUM_6,
     TD_NUM_DOT,
-    TD_F1,
-    TD_F2,
-    TD_F3,
     TD_F4,
     TD_F5,
     TD_F6,
-    TD_F7,
-    TD_F8,
-    TD_F9,
-    TD_F10,
-    TD_F11,
-    TD_F12,
-    TD_F14,
     TD_F15,
-    TD_F16,
-    TD_F17,
-    TD_F18,
-    TD_NUM_RT2,
-    TD_NUM_RT3,
 
     // NAVIGATION
     TD_NEXT_REF,
@@ -121,37 +105,34 @@ General Tap-Dance keys
 #define UK_LT5  TD(TD_LT5)
 #define UK_RT5  TD(TD_RT5)
 
-#define UK_LP1  TD(TD_LP1)
-#define UK_RP1  TD(TD_RP1)
-
 #define UK_DEL  TD(TD_DELETE)
 #define UK_BSPC TD(TD_BACKSPACE)
 
 #define UK_PRN  TD(TD_PRINTSCREEN)
 
 /*
+Colemak Tap-Dance
+*/
+#define COL_A MT(MOD_LGUI, KC_A)
+#define COL_R MT(MOD_LCTL, KC_R)
+#define COL_S MT(MOD_LSFT, KC_S)
+#define COL_T MT(MOD_LALT, KC_T)
+#define COL_N MT(MOD_LALT, KC_N)
+#define COL_E MT(MOD_LSFT, KC_E)
+#define COL_I MT(MOD_LCTL, KC_I)
+#define COL_O MT(MOD_LGUI, KC_O)
+
+/*
 Number Tap-Dance
 */
-#define NUM_F01 TD(TD_F1)
-#define NUM_F02 TD(TD_F2)
-#define NUM_F03 TD(TD_F3)
 #define NUM_F04 TD(TD_F4)
 #define NUM_F05 TD(TD_F5)
 #define NUM_F06 TD(TD_F6)
-#define NUM_F07 TD(TD_F7)
-#define NUM_F08 TD(TD_F8)
-#define NUM_F09 TD(TD_F9)
-#define NUM_F10 TD(TD_F10)
-#define NUM_F11 TD(TD_F11)
-#define NUM_F12 TD(TD_F12)
-#define NUM_F14 TD(TD_F14)
 #define NUM_F15 TD(TD_F15)
-#define NUM_F16 TD(TD_F16)
-#define NUM_F17 TD(TD_F17)
-#define NUM_F18 TD(TD_F18)
+#define NUM_4 TD(TD_NUM_4)
+#define NUM_5 TD(TD_NUM_5)
+#define NUM_6 TD(TD_NUM_6)
 #define NUM_DOT TD(TD_NUM_DOT)
-#define NUM_RT2 TD(TD_NUM_RT2)
-#define NUM_RT3 TD(TD_NUM_RT3)
 
 /*
 Navigation Tap-Dance
@@ -207,19 +188,24 @@ Utility Tap-Dance
 #define UTI_PLY TD(TD_AUDIO_PLAY)
 #define UTI_RES TD(TD_UTIL_BACK_TO_BASICS)
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[COLE] = LAYOUT(
-        UK_DEL, KC_Q, KC_W, KC_F, KC_P, KC_B,                                              KC_J, KC_L, KC_U,    KC_Y,   DK_ARNG, UK_BSPC,
-        DK_QUES,KC_A, KC_R, KC_S, KC_T, KC_G,                                              KC_M, KC_N, KC_E,    KC_I,   KC_O,    DK_OSTR,
-        UK_LP1, KC_Z, KC_X, KC_C, KC_D, KC_V,      UK_LT1,                     UK_RT1,     KC_K, KC_H, KC_COMM, KC_DOT, DK_MINS, UK_RP1,
+        UK_DEL, KC_Q,  KC_W,  KC_F,  KC_P,  KC_B,                                              KC_J, KC_L,  KC_U,    KC_Y,   DK_ARNG, UK_BSPC,
+        DK_QUES,COL_A, COL_R, COL_S, COL_T, KC_G,                                              KC_M, COL_N, COL_E,   COL_I,  COL_O,   DK_OSTR,
+        DK_PIPE,KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,      UK_LT1,                     UK_RT1,     KC_K, KC_H,  KC_COMM, KC_DOT, DK_MINS, DK_AE,
                                     UK_LT2, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, UK_RT2
     ),
 	[NUMB] = LAYOUT(
-        UK_DEL, NUM_F16, NUM_F07, NUM_F08, NUM_F09, NUM_F12,                                              KC_SCRL, KC_7, KC_8, KC_9, KC_NO, UK_BSPC,
-        NUM_F18, NUM_F15, NUM_F04, NUM_F05, NUM_F06, NUM_F11,                                             KC_0,    KC_4, KC_5, KC_6, NUM_DOT, KC_NO,
-        NUM_F17, NUM_F14, NUM_F01, NUM_F02, NUM_F03, NUM_F10,     UK_LT1,                     UK_RT1,     KC_NO,   KC_1, KC_2, KC_3, S(DK_MINS), KC_NO,
-                                                  UK_LT2, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, NUM_RT3, NUM_RT2
+        UK_DEL, KC_F16,  KC_F7,   KC_F8,   KC_F9,   KC_F12,                                             KC_SCRL, KC_7, KC_8, KC_9, KC_NO, UK_BSPC,
+        KC_F18, NUM_F15, NUM_F04, NUM_F05, NUM_F06, KC_F11,                                             KC_0,    NUM_4, NUM_5, NUM_6, NUM_DOT, KC_NO,
+        KC_F17, KC_F14,  KC_F1,   KC_F2,   KC_F3,   KC_F10,     UK_LT1,                     UK_RT1,     KC_NO,   KC_1, KC_2, KC_3, S(DK_MINS), KC_NO,
+                                                  UK_LT2, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, KC_0, KC_0
+    ),
+	[SYMB] = LAYOUT(
+        SYM_DEL,   KC_NO,   DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                               DK_QUOT, DK_ASTR, SYM_SLS, KC_NO,   KC_NO, SYM_BSP,
+        SYM_HLF, DK_HASH, DK_AMPR, DK_LABK, DK_RABK, DK_TILD,                                               DK_DQUO, DK_LPRN, DK_RPRN, DK_EQL,  DK_PERC, DK_MICR,
+        KC_NO,   DK_AT,   DK_DLR,  DK_LBRC, DK_RBRC, DK_CIRC,       SYM_LT1,                     SYM_RT1,   SYM_TCK, DK_PLUS, DK_MINS, KC_NO,   KC_NO,   KC_NO,
+                                                    UK_LT2, UK_LT3, SYM_LT4, UK_LT5,     UK_RT5, SYM_RT4, UK_RT3, UK_RT2
     ),
 	[NAVI] = LAYOUT(
         NAV_DEL,KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                              NAV_PAU, KC_HOME, KC_UP  , KC_END , KC_NO, NAV_BSP,
@@ -239,20 +225,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO , KC_NO, KC_BTN2, KC_BTN3, KC_BTN1, RGB_M_R,        UK_LT1,                     UK_RT1,     KC_NO  , KC_WH_U, KC_MS_D, KC_WH_D, KC_NO  , KC_NO,
                                                 UK_LT2, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, UK_RT2
     ),
-	[SYMB] = LAYOUT(
-        SYM_DEL,   KC_NO,   DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                               DK_QUOT, DK_ASTR, SYM_SLS, KC_NO,   KC_NO, SYM_BSP,
-        SYM_HLF, DK_HASH, DK_AMPR, DK_LABK, DK_RABK, DK_TILD,                                               DK_DQUO, DK_LPRN, DK_RPRN, DK_EQL,  DK_PERC, DK_MICR,
-        KC_NO,   DK_AT,   DK_DLR,  DK_LBRC, DK_RBRC, DK_CIRC,       SYM_LT1,                     SYM_RT1,   SYM_TCK, DK_PLUS, DK_MINS, KC_NO,   KC_NO,   KC_NO,
-                                                    UK_LT2, UK_LT3, SYM_LT4, UK_LT5,     UK_RT5, SYM_RT4, UK_RT3, UK_RT2
-    ),
 	[UTIL] = LAYOUT(
         KC_SLEP, A(KC_F4), C(KC_W),DM_REC1, DM_REC2, KC_NO,                                                         KC_BRIU, KC_BRID, KC_VOLU, KC_NO  , KC_NO  , KC_NO,
-        UTI_MON, KC_NO, KC_CALC, DM_PLY1, DM_PLY2, KC_NO,                                                           UK_PRN , KC_MPRV, KC_VOLD, KC_MNXT, AC_TOGG, AS_TOGG,
+        UTI_MON, KC_NO, KC_CALC, DM_PLY1, DM_PLY2, KC_NO,                                                           UK_PRN , KC_MPRV, KC_VOLD, KC_MNXT, KC_NO, AC_TOGG,
         KC_NO,   KC_NO, C(G(KC_UP)), KC_NO, C(G(KC_DOWN)),KC_NO,      UTI_RES,                           UTI_RES,   KC_NO, C(G(KC_LEFT)), UTI_PLY, C(G(KC_RIGHT)), KC_NO, QK_BOOT,
                                                     UK_LT2, TO(NUMB), TO(SYMB), TO(NAVI),     TO(MOUSE), TO(SYMB), TO(NUMB), UK_RT2
     ),
 };
 
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+        case DK_AE:
+        case DK_ARNG:
+        case DK_OSTR:
+        case DK_MINS:
+            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+            return true;
+
+        default:
+            return false; // Deactivate Caps Word.
+    }
+}
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     // TODO: simplify this method if possible
@@ -510,26 +512,14 @@ Define Tap-Dance functions and the lookup table
 // GENERAL
 TDF_TAP(TD_LT1, tap_code(KC_ENTER))
 TDF_HOLD(TD_LT1, layer_on(UTIL), layer_off(UTIL))
-TDF_TAPHOLD(
-    TD_LT1,
-    {
-        register_code(KC_LALT);
-        register_code(KC_LCTL);
-    },
-    {
-        unregister_code(KC_LCTL);
-        unregister_code(KC_LALT);
-    })
 
-TDF_TAPHOLD(TD_LT2, register_code(KC_LSFT), unregister_code(KC_LSFT))
+TDF_TAP(TD_LT2, caps_word_on())
 
 TDF_TAP(TD_LT3, tap_code(KC_TAB))
 TDF_HOLD(TD_LT3, layer_on(NUMB), layer_off(NUMB))
-TDF_TAPHOLD(TD_LT3, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_LT4, tap_code(KC_SPC))
 TDF_HOLD(TD_LT4, layer_on(SYMB), layer_off(SYMB))
-TDF_TAPHOLD(TD_LT4, register_code(KC_LCTL), unregister_code(KC_LCTL))
 
 TDF_TAP(TD_LT5, tap_code(KC_ESC))
 TDF_HOLD(TD_LT5, layer_on(NAVI), layer_off(NAVI))
@@ -537,28 +527,14 @@ TDF_TAPHOLD(TD_LT5, layer_on(MOUSE), layer_off(MOUSE))
 
 TDF_TAP(TD_RT1, tap_code(KC_ENTER))
 TDF_HOLD(TD_RT1, layer_on(UTIL), layer_off(UTIL))
-TDF_TAPHOLD(
-    TD_RT1,
-    {
-        register_code(KC_LALT);
-        register_code(KC_LCTL);
-        register_code(KC_LGUI);
-    },
-    {
-        unregister_code(KC_LGUI);
-        unregister_code(KC_LCTL);
-        unregister_code(KC_LALT);
-    })
 
-TDF_TAPHOLD(TD_RT2, register_code(KC_LSFT), unregister_code(KC_LSFT) )
+TDF_TAP(TD_RT2, caps_word_on())
 
 TDF_TAP(TD_RT3, tap_code(KC_TAB))
 TDF_HOLD(TD_RT3, layer_on(NUMB), layer_off(NUMB))
-TDF_TAPHOLD(TD_RT3, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_RT4, tap_code(KC_SPC))
 TDF_HOLD(TD_RT4, layer_on(SYMB), layer_off(SYMB))
-TDF_TAPHOLD(TD_RT4, register_code(KC_LCTL), unregister_code(KC_LCTL))
 
 TDF_TAP(TD_RT5, tap_code(KC_ESC))
 TDF_HOLD(TD_RT5, layer_on(NAVI), layer_off(NAVI))
@@ -570,29 +546,25 @@ TDF_HOLD(TD_DELETE, tap_code16(A(KC_DEL)), {})
 TDF_TAP(TD_BACKSPACE, tap_code(KC_BSPC) )
 TDF_HOLD(TD_BACKSPACE, tap_code16(A(KC_BSPC)), {})
 
-TDF_TAP(TD_LP1, tap_code16(DK_PIPE))
-TDF_TAPHOLD(TD_LP1, register_code(KC_LGUI), unregister_code(KC_LGUI))
-
-TDF_TAP(TD_RP1, tap_code16(DK_AE))
-TDF_HOLD(TD_RP1, tap_code16(S(DK_AE)), {})
-TDF_TAPHOLD(TD_RP1, register_code(KC_LGUI), unregister_code(KC_LGUI))
-
 // NUMBER
-TDF_TAP(TD_NUM_RT2, tap_code(KC_0))
-TDF_TAPHOLD(TD_NUM_RT2, register_code(KC_LALT), unregister_code(KC_LALT))
-
-TDF_TAP(TD_NUM_RT3, tap_code(KC_0))
-TDF_TAPHOLD(TD_NUM_RT3, register_code(KC_LSFT), unregister_code(KC_LSFT) )
-
+TDF_TAP(TD_NUM_4, tap_code(KC_4))
+TDF_HOLD(TD_NUM_4, register_code(KC_LALT), unregister_code(KC_LALT))
+TDF_TAP(TD_NUM_5, tap_code(KC_5))
+TDF_HOLD(TD_NUM_5, register_code(KC_LSFT), unregister_code(KC_LSFT))
+TDF_TAP(TD_NUM_6, tap_code(KC_6))
+TDF_HOLD(TD_NUM_6, register_code(KC_LCTL), unregister_code(KC_LCTL))
 TDF_TAP(TD_NUM_DOT, tap_code(KC_DOT))
+TDF_HOLD(TD_NUM_DOT, register_code(KC_LGUI), unregister_code(KC_LGUI))
 TDF_DTAP(TD_NUM_DOT, tap_code(KC_COMM))
-#define TDF_FX(FN) \
-    TDF_TAP(TD_ ## FN, tap_code16(KC_ ## FN); ) \
-    TDF_DTAP(TD_ ## FN, tap_code16(C(KC_ ## FN)); ) \
-    TDF_HOLD(TD_ ## FN, tap_code16(S(KC_ ## FN));, {}) \
-    TDF_TAPHOLD(TD_ ## FN, tap_code16(C(S(KC_ ## FN)));, {})
-TDF_FX(F1) TDF_FX(F2) TDF_FX(F3) TDF_FX(F4) TDF_FX(F5) TDF_FX(F6) TDF_FX(F7) TDF_FX(F8)
-TDF_FX(F9) TDF_FX(F10) TDF_FX(F11) TDF_FX(F12) TDF_FX(F14) TDF_FX(F15) TDF_FX(F16) TDF_FX(F17) TDF_FX(F18)
+
+TDF_TAP(TD_F15, tap_code16(KC_F15);)
+TDF_HOLD(TD_F15, register_code(KC_LGUI), unregister_code(KC_LGUI))
+TDF_TAP(TD_F4, tap_code16(KC_F4);)
+TDF_HOLD(TD_F4, register_code(KC_LCTL), unregister_code(KC_LCTL))
+TDF_TAP(TD_F5, tap_code16(KC_F5);)
+TDF_HOLD(TD_F5, register_code(KC_LSFT), unregister_code(KC_LSFT))
+TDF_TAP(TD_F6, tap_code16(KC_F6);)
+TDF_HOLD(TD_F6, register_code(KC_LALT), unregister_code(KC_LALT))
 
 // SYMBOLIC
 TDF_TAP(TD_SYMB_LT1, tap_code16(C(S(KC_ENTER))))
@@ -708,7 +680,7 @@ TDF_TAP(TD_NAVI_UNDO, tap_code16(C(KC_Z)))
 TDF_HOLD(TD_NAVI_UNDO, register_code16(KC_LGUI), unregister_code16(KC_LGUI))
 
 TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
-    caps_word_off();
+    //caps_word_off();
     unregister_code(KC_LCTL);
     unregister_code(KC_LSFT);
     unregister_code(KC_LALT);
@@ -718,47 +690,33 @@ TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
     layer_move(COLE);
 })
 
-
 tap_dance_action_t tap_dance_actions[] = {
     // GENERAL
-    TDA_TAP_HOLD_TAPHOLD(TD_LT1),
-    TDA_TAPHOLD(TD_LT2),
-    TDA_TAP_HOLD_TAPHOLD(TD_LT3),
-    TDA_TAP_HOLD_TAPHOLD(TD_LT4),
+    TDA_TAP_HOLD(TD_LT1),
+    TDA_TAP(TD_RT2),
+    TDA_TAP_HOLD(TD_LT3),
+    TDA_TAP_HOLD(TD_LT4),
     TDA_TAP_HOLD_TAPHOLD(TD_LT5),
-    TDA_TAP_HOLD_TAPHOLD(TD_RT1),
-    TDA_TAPHOLD(TD_RT2),
-    TDA_TAP_HOLD_TAPHOLD(TD_RT3),
-    TDA_TAP_HOLD_TAPHOLD(TD_RT4),
+
+    TDA_TAP_HOLD(TD_RT1),
+    TDA_TAP(TD_RT2),
+    TDA_TAP_HOLD(TD_RT3),
+    TDA_TAP_HOLD(TD_RT4),
     TDA_TAP_HOLD_TAPHOLD(TD_RT5),
 
     TDA_TAP_HOLD(TD_DELETE),
     TDA_TAP_HOLD(TD_BACKSPACE),
 
-    TDA_TAP_TAPHOLD(TD_LP1),
-    TDA_TAP_HOLD_TAPHOLD(TD_RP1),
-
     // NUMBER
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F1),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F2),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F3),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F4),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F5),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F6),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F7),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F8),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F9),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F10),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F11),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F12),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F14),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F15),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F16),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F17),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_F18),
-    TDA_TAP_DTAP(TD_NUM_DOT),
-    TDA_TAP_TAPHOLD(TD_NUM_RT2),
-    TDA_TAP_TAPHOLD(TD_NUM_RT3),
+    TDA_TAP_HOLD(TD_F4),
+    TDA_TAP_HOLD(TD_F5),
+    TDA_TAP_HOLD(TD_F6),
+    TDA_TAP_HOLD(TD_F15),
+
+    TDA_TAP_HOLD(TD_NUM_4),
+    TDA_TAP_HOLD(TD_NUM_5),
+    TDA_TAP_HOLD(TD_NUM_6),
+    TDA_TAP_HOLD_DTAP(TD_NUM_DOT),
 
     // SYMBOLIC
     TDA_TAP_HOLD(TD_SYMB_LT1),
@@ -774,27 +732,13 @@ tap_dance_action_t tap_dance_actions[] = {
     // NAVIGATION
     TDA_TAP(TD_NAV_DELETE),
     TDA_TAP(TD_NAV_BACKSPACE),
-
-    // MOUSE
-    TDA_TAP_HOLD(TD_MOUSE_1),
-    TDA_TAP_HOLD(TD_MOUSE_2),
-    TDA_TAP_HOLD(TD_MOUSE_3),
-
-
-    TDA_TAP(TD_UTIL_BACK_TO_BASICS),
-
     TDA_TAP_DTAP(TD_NAVI_RT2),
-    TDA_TAP_DTAP(TD_PAU_INS),
     TDA_TAP_HOLD(TD_BACK_META),
     TDA_TAP_HOLD_DTAP_TAPHOLD(TD_REFERENCE),
     TDA_TAP_HOLD_DTAP(TD_PREV_REF),
     TDA_TAP_HOLD_DTAP(TD_NEXT_REF),
     TDA_TAP_HOLD_DTAP(TD_FOLD),
     TDA_TAP_HOLD(TD_NAVI_VSCODE),
-    TDA_HOLD_TAPHOLD(TD_NAVI_MOUSE),
-    TDA_TAP_DTAP(TD_KVM_SWITCH),
-    TDA_TAP_HOLD(TD_AUDIO_PLAY),
-    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_PRINTSCREEN),
     TDA_TAP_HOLD_DTAP(TD_VSCODE_UP),
     TDA_TAP_HOLD_DTAP(TD_VSCODE_DOWN),
     TDA_TAP_HOLD_DTAP(TD_VSCODE_LEFT),
@@ -805,4 +749,17 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD_DTAP(TD_NAVI_PASTE),
     TDA_TAP_HOLD(TD_NAVI_UNDO),
     TDA_TAP_HOLD_DTAP(TD_VSCODE_TERMINAL),
+
+    // MOUSE
+    TDA_TAP_HOLD(TD_MOUSE_1),
+    TDA_TAP_HOLD(TD_MOUSE_2),
+    TDA_TAP_HOLD(TD_MOUSE_3),
+
+    TDA_TAP(TD_UTIL_BACK_TO_BASICS),
+
+    TDA_TAP_DTAP(TD_PAU_INS),
+    TDA_HOLD_TAPHOLD(TD_NAVI_MOUSE),
+    TDA_TAP_DTAP(TD_KVM_SWITCH),
+    TDA_TAP_HOLD(TD_AUDIO_PLAY),
+    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_PRINTSCREEN),
 };
