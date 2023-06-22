@@ -26,7 +26,7 @@
     },
     "python.formatting.provider": "yapf",
     "[json]": {
-	    "editor.formatOnSave": false
+        "editor.formatOnSave": false
     },
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#49521f",
@@ -50,5 +50,8 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#282d11",
-    "peacock.remoteColor": "#10c322"
+    "peacock.remoteColor": "#10c322",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false
 }
