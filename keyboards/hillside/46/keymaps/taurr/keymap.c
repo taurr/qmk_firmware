@@ -4,9 +4,9 @@
 
 
 enum layers {
-    COLE,
-    NUMB,   // numberpad/Fx
-    NUMB2,
+    BASE,
+    NUM,   // numberpad/Fx
+    NUM2,
     SYMB,   // symbols
     NAVI,   // navigation
     VSCODE, // vscode shortcuts
@@ -19,7 +19,7 @@ enum layers {
  */
 enum {
     // GENERAL
-    TD_LT1,
+    TD_BASE_31,
     TD_RT1,
     TD_LT3,
     TD_RT3,
@@ -28,8 +28,10 @@ enum {
     TD_LT5,
     TD_RT5,
 
-    TD_DELETE,
-    TD_BACKSPACE,
+    TD_BASE_1,
+    TD_BASE_12,
+    TD_BASE_24,
+    TD_BASE_37,
 
     TD_COL_DOT,
     TD_COL_COMM,
@@ -94,8 +96,8 @@ enum {
 /*
 General Tap-Dance keys
 */
-#define UK_LT1  TD(TD_LT1)
-#define UK_RT1  TD(TD_RT1)
+#define BASE_31  TD(TD_BASE_31)
+#define BASE_32  TD(TD_RT1)
 #define UK_LT3  TD(TD_LT3)
 #define UK_RT3  TD(TD_RT3)
 #define UK_LT4  TD(TD_LT4)
@@ -103,25 +105,24 @@ General Tap-Dance keys
 #define UK_LT5  TD(TD_LT5)
 #define UK_RT5  TD(TD_RT5)
 
-#define UK_DEL  TD(TD_DELETE)
-#define UK_BSPC TD(TD_BACKSPACE)
+#define BASE_1  TD(TD_BASE_1)
+#define BASE_12 TD(TD_BASE_12)
+#define BASE_24 TD(TD_BASE_24)
 
 #define UK_PRN  TD(TD_PRINTSCREEN)
 
 /*
 Colemak Tap-Dance
 */
-#define COL_A MT(MOD_LGUI, KC_A)
-#define COL_R MT(MOD_LCTL, KC_R)
-#define COL_S MT(MOD_LSFT, KC_S)
-#define COL_T MT(MOD_LALT, KC_T)
-#define COL_N MT(MOD_LALT, KC_N)
-#define COL_E MT(MOD_LSFT, KC_E)
-#define COL_I MT(MOD_RCTL, KC_I)
-#define COL_O MT(MOD_LGUI, KC_O)
-#define COL_DOT  TD(TD_COL_DOT)
-#define COL_COMM  TD(TD_COL_COMM)
-#define COL_MINS  TD(TD_COL_MINS)
+#define BASE_26 MT(MOD_LGUI, KC_Z)
+#define BASE_27 MT(MOD_LCTL, KC_X)
+#define BASE_28 MT(MOD_LSFT, KC_C)
+#define BASE_29 MT(MOD_LALT, KC_D)
+
+#define BASE_34 MT(MOD_LALT, KC_H)
+#define BASE_35 MT(MOD_RSFT, KC_COMM)
+#define BASE_36 MT(MOD_RCTL, KC_DOT)
+#define BASE_37 TD(TD_BASE_37)
 
 /*
 Number Tap-Dance
@@ -182,34 +183,34 @@ Utility Tap-Dance
 #define UTI_RES TD(TD_UTIL_BACK_TO_BASICS)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	[COLE] = LAYOUT(
-        UK_DEL,  KC_Q,  KC_W,  KC_F,  KC_P,  KC_B,                                              KC_J, KC_L,  KC_U,     KC_Y,    DK_ARNG,  UK_BSPC,
-        KC_TAB,  COL_A, COL_R, COL_S, COL_T, KC_G,                                              KC_M, COL_N, COL_E,    COL_I,   COL_O,    DK_AE,
-        DK_QUES, KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,     UK_LT1,                      UK_RT1,     KC_K, KC_H,  COL_COMM, COL_DOT, COL_MINS, DK_OSTR,
-                                       KC_NO, UK_LT3, UK_LT4, UK_LT5,      UK_RT5, UK_RT4, UK_RT3, KC_NO
+	[BASE] = LAYOUT(
+        BASE_1,  KC_Q,  KC_W,  KC_F,  KC_P,  KC_B,                                                    KC_J, KC_L,  KC_U,     KC_Y,    DK_QUES,  BASE_12,
+        KC_TAB,  KC_A,  KC_R,  KC_S,  KC_T, KC_G,                                                     KC_M, KC_N,  KC_E,     KC_I,    KC_O,    BASE_24,
+        KC_NO, BASE_26, BASE_27, BASE_28, BASE_29, KC_V,    BASE_31,                      BASE_32,      KC_K, BASE_34, BASE_35, BASE_36, BASE_37, KC_NO,
+                                       KC_CAPS, UK_LT3, UK_LT4, UK_LT5,      UK_RT5, UK_RT4, UK_RT3, CW_TOGG
     ),
-	[NUMB] = LAYOUT(
-        UK_DEL, KC_F11, KC_F7, KC_F8, KC_F9, KC_F12,                                            KC_SCRL, KC_7, KC_8, KC_9, KC_NO, UK_BSPC,
+	[NUM] = LAYOUT(
+        BASE_1, KC_F11, KC_F7, KC_F8, KC_F9, KC_F12,                                            KC_SCRL, KC_7, KC_8, KC_9, KC_NO, BASE_12,
         KC_NO,  NUM_A,  NUM_R, NUM_S, NUM_T, KC_NO,                                             KC_0,    KC_4, KC_5, KC_6, NUM_O, KC_NO,
-        KC_NO,  KC_NO,  KC_F1, KC_F2, KC_F3, KC_NO,     UK_LT1,                     UK_RT1,     KC_NO,   KC_1, KC_2, KC_3, KC_COMM, KC_NO,
-                                        KC_NO, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, KC_0, KC_0, KC_NO
+        KC_NO,  KC_NO,  KC_F1, KC_F2, KC_F3, KC_NO,     BASE_31,                     BASE_32,     KC_NO,   KC_1, KC_2, KC_3, KC_COMM, KC_NO,
+                                        KC_NO, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, _______, _______, KC_NO
     ),
-	[NUMB2] = LAYOUT(
+	[NUM2] = LAYOUT(
         _______, _______,  _______, _______, _______, _______,                                               KC_NUM_LOCK, KC_KP_7, KC_KP_8, KC_KP_9, _______,   _______,
         _______, _______,  _______, _______, _______, _______,                                               KC_KP_0,     KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_DOT, _______,
         _______, _______,  _______, _______, _______, _______,    _______,                       _______,    _______,     KC_KP_1, KC_KP_2, KC_KP_3, _______,   _______,
-                                                KC_NO, _______, _______, _______,     _______, KC_KP_0, KC_KP_0, KC_NO
+                                                KC_NO, _______, _______, _______,     _______, _______, _______, KC_NO
     ),
 	[SYMB] = LAYOUT(
-        SYM_DEL, KC_NO,   DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                               DK_QUOT, DK_ASTR, SYM_SLS, DK_PIPE,    KC_NO,   SYM_BSP,
+        KC_NO, KC_NO, DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                               DK_QUOT, DK_ASTR, SYM_SLS, DK_PIPE,    DK_QUES,   SYM_BSP,
         SYM_HLF, DK_HASH, DK_AMPR, DK_LABK, DK_RABK, DK_TILD,                                               DK_DQUO, DK_LPRN, DK_RPRN, DK_EQL,     DK_PERC, DK_MICR,
-        KC_NO,   DK_AT,   DK_DLR,  DK_LBRC, DK_RBRC, DK_CIRC,       UK_LT1,                     UK_RT1,     SYM_TCK, DK_PLUS, DK_MINS, S(DK_MINS), KC_NO,   KC_NO,
+        KC_NO,   DK_AT,   DK_DLR,  DK_LBRC, DK_RBRC, DK_CIRC,       BASE_31,                     BASE_32,     SYM_TCK, DK_PLUS, DK_MINS, S(DK_MINS), KC_NO,   KC_NO,
                                                     KC_NO, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, KC_NO
     ),
 	[NAVI] = LAYOUT(
-        NAV_DEL,KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                                      NAV_J, KC_HOME, KC_UP,         KC_PGUP, KC_NO, NAV_BSP,
+        NAV_DEL,KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                                      NAV_J, KC_HOME, KC_UP,         KC_END , KC_NO, NAV_BSP,
         KC_NO,  NAV_A, NAV_R, NAV_S, NAV_T, NAV_G,                                                      NAV_M, KC_LEFT, KC_DOWN,       KC_RGHT, NAV_O, KC_NO,
-        KC_NO,  NAV_Z, NAV_X, NAV_C, NAV_D, KC_NO,      UK_LT1,                             UK_RT1,     KC_NO, KC_END , S(C(DK_HALF)), KC_PGDN, KC_NO, KC_NO,
+        KC_NO,  NAV_Z, NAV_X, NAV_C, NAV_D, KC_NO,      BASE_31,                             BASE_32,     KC_NO, KC_PGUP, S(C(DK_HALF)), KC_PGDN, KC_NO, KC_NO,
                                                 KC_NO, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, KC_NO
     ),
 	[VSCODE] = LAYOUT(
@@ -219,16 +220,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 KC_NO, _______, _______, _______,     _______, _______, _______, KC_NO
     ),
 	[MOUSE] = LAYOUT(
-        UK_DEL,  KC_NO,   RGB_MOD, RGB_SPD, RGB_SPI, RGB_TOG,                                                KC_NO  , KC_WH_L, KC_MS_U, KC_WH_R, KC_NO  , UK_BSPC,
+        BASE_1,  KC_NO,   RGB_MOD, RGB_SPD, RGB_SPI, RGB_TOG,                                                KC_NO  , KC_WH_L, KC_MS_U, KC_WH_R, KC_NO  , BASE_12,
         RGB_VAD, RGB_VAI, MS_BT1,  MS_BT2,  MS_BT3,  RGB_M_P,                                                KC_NO  , KC_MS_L, KC_MS_D, KC_MS_R, _______, KC_NO,
-        RGB_HUD, RGB_HUI, KC_BTN2, KC_BTN3, KC_BTN1, RGB_M_R,        UK_LT1,                     UK_RT1,     KC_NO  , KC_WH_U, KC_MS_D, KC_WH_D, KC_NO  , KC_NO,
+        RGB_HUD, RGB_HUI, KC_BTN2, KC_BTN3, KC_BTN1, RGB_M_R,        BASE_31,                     BASE_32,     KC_NO  , KC_WH_U, KC_MS_D, KC_WH_D, KC_NO  , KC_NO,
                                                 KC_NO, UK_LT3, UK_LT4, UK_LT5,     UK_RT5, UK_RT4, UK_RT3, KC_NO
     ),
 	[UTIL] = LAYOUT(
         KC_SLEP, KC_NO, KC_NO,   DM_REC1, DM_REC2, CW_TOGG,                                                         KC_BRIU, KC_BRID, KC_VOLU, KC_NO  , KC_NO  , KC_NO,
         UTI_MON, KC_NO, KC_CALC, DM_PLY1, DM_PLY2, KC_NO,                                                           UK_PRN , KC_MPRV, KC_VOLD, KC_MNXT, KC_NO, AC_TOGG,
         KC_NO,   KC_NO, C(G(KC_UP)), KC_NO, C(G(KC_DOWN)),KC_NO,      UTI_RES,                           UTI_RES,   KC_NO, C(G(KC_LEFT)), UTI_PLY, C(G(KC_RIGHT)), KC_NO, QK_BOOT,
-                                                    KC_NO, TO(NUMB), TO(NUMB), TO(NAVI),     TO(MOUSE), TO(SYMB), TO(SYMB), KC_NO
+                                                    KC_NO, TO(NUM), TO(NUM), TO(NAVI),     TO(MOUSE), TO(SYMB), TO(SYMB), KC_NO
     ),
 };
 
@@ -257,12 +258,12 @@ extern rgblight_config_t rgblight_config;
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
-        case NUMB:
+        case NUM:
             rgblight_enable_noeeprom();
             rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             rgblight_sethsv_noeeprom(HSV_RED);
             break;
-        case NUMB2:
+        case NUM2:
             rgblight_enable_noeeprom();
             rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             rgblight_sethsv_noeeprom(240, 255, 255);
@@ -545,14 +546,14 @@ Define Tap-Dance functions and the lookup table
 */
 
 // GENERAL
-TDF_TAP(TD_LT1, tap_code(KC_ENTER))
-TDF_HOLD(TD_LT1, layer_on(UTIL), layer_off(UTIL))
+TDF_TAP(TD_BASE_31, tap_code(KC_ENTER))
+TDF_HOLD(TD_BASE_31, layer_on(UTIL), layer_off(UTIL))
 
 TDF_TAP(TD_LT3, tap_code(KC_SPC))
-TDF_HOLD(TD_LT3, layer_on(NUMB), layer_off(NUMB))
+TDF_HOLD(TD_LT3, layer_on(NUM), layer_off(NUM))
 
 TDF_TAP(TD_LT4, tap_code(KC_SPC))
-TDF_HOLD(TD_LT4, layer_on(NUMB), layer_off(NUMB))
+TDF_HOLD(TD_LT4, layer_on(NUM), layer_off(NUM))
 
 TDF_TAP(TD_LT5, tap_code(KC_ESC))
 TDF_HOLD(TD_LT5, layer_on(NAVI), layer_off(NAVI))
@@ -571,13 +572,20 @@ TDF_TAP(TD_RT5, tap_code(KC_ESC))
 TDF_HOLD(TD_RT5, layer_on(NAVI), layer_off(NAVI))
 TDF_TAPHOLD(TD_RT5, layer_on(MOUSE), layer_off(MOUSE))
 
-TDF_TAP(TD_DELETE, tap_code(KC_DEL))
-TDF_HOLD(TD_DELETE, register_code(KC_DEL), unregister_code(KC_DEL))
-TDF_TAPHOLD(TD_DELETE, tap_code16(A(KC_DEL)), {})
+TDF_TAP(TD_BASE_1, tap_code(KC_DEL))
+TDF_HOLD(TD_BASE_1, register_code(KC_DEL), unregister_code(KC_DEL))
+TDF_TAPHOLD(TD_BASE_1, tap_code16(A(KC_DEL)), {})
 
-TDF_TAP(TD_BACKSPACE, tap_code(KC_BSPC))
-TDF_HOLD(TD_BACKSPACE, register_code(KC_BSPC), unregister_code(KC_BSPC))
-TDF_TAPHOLD(TD_BACKSPACE, tap_code16(A(KC_BSPC)), {})
+TDF_TAP(TD_BASE_12, tap_code(KC_BSPC))
+TDF_HOLD(TD_BASE_12, register_code(KC_BSPC), unregister_code(KC_BSPC))
+TDF_TAPHOLD(TD_BASE_12, tap_code16(A(KC_BSPC)), {})
+
+TDF_TAP(TD_BASE_24, tap_code(DK_AE))
+TDF_DTAP(TD_BASE_24, tap_code(DK_ARNG))
+TDF_HOLD(TD_BASE_24, tap_code(DK_OSTR), {})
+
+TDF_TAP(TD_BASE_37, tap_code16(S(DK_MINS)))
+TDF_HOLD(TD_BASE_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
 // COLEMAK
 TDF_TAP(TD_COL_DOT, tap_code(KC_DOT))
@@ -591,7 +599,7 @@ TDF_HOLD(TD_COL_MINS, tap_code16(S(DK_MINS)), {})
 
 // NUMBER
 TDF_TAP(TD_NUM_A, tap_code16(KC_F10);)
-TDF_HOLD(TD_NUM_A, layer_on(NUMB2), layer_off(NUMB2))
+TDF_HOLD(TD_NUM_A, layer_on(NUM2), layer_off(NUM2))
 TDF_TAP(TD_NUM_R, tap_code16(KC_F4);)
 TDF_HOLD(TD_NUM_R, register_code(KC_LCTL), unregister_code(KC_LCTL))
 TDF_TAP(TD_NUM_S, tap_code16(KC_F5);)
@@ -601,7 +609,7 @@ TDF_HOLD(TD_NUM_T, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_NUM_O, tap_code(KC_DOT))
 TDF_DTAP(TD_NUM_O, tap_code(KC_COMM))
-TDF_HOLD(TD_NUM_O, layer_on(NUMB2), layer_off(NUMB2))
+TDF_HOLD(TD_NUM_O, layer_on(NUM2), layer_off(NUM2))
 
 // SYMBOLIC
 TDF_TAP(TD_SYMB_SLASH, tap_code16(DK_SLSH))
@@ -763,12 +771,12 @@ TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
     unregister_code(KC_LGUI);
     clear_mods();
     clear_weak_mods();
-    layer_move(COLE);
+    layer_move(BASE);
 })
 
 tap_dance_action_t tap_dance_actions[] = {
     // GENERAL
-    TDA_TAP_HOLD(TD_LT1),
+    TDA_TAP_HOLD(TD_BASE_31),
     TDA_TAP_HOLD(TD_LT3),
     TDA_TAP_HOLD(TD_LT4),
     TDA_TAP_HOLD_TAPHOLD(TD_LT5),
@@ -778,8 +786,10 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD(TD_RT4),
     TDA_TAP_HOLD_TAPHOLD(TD_RT5),
 
-    TDA_TAP_HOLD_TAPHOLD(TD_DELETE),
-    TDA_TAP_HOLD_TAPHOLD(TD_BACKSPACE),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_1),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_12),
+    TDA_TAP_HOLD_DTAP(TD_BASE_24),
+    TDA_TAP_HOLD(TD_BASE_37),
 
     // COLEMAK
     TDA_TAP_HOLD(TD_COL_DOT),
