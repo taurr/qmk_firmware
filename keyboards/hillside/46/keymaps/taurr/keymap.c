@@ -18,6 +18,8 @@ enum layers {
  Tap-Dance key codes
  */
 enum {
+    TD_BASE_16,
+    TD_BASE_21,
     TD_BASE_24,
     TD_BASE_31,
     TD_BASE_32,
@@ -89,8 +91,8 @@ enum {
     TD_NAV_35,
     TD_NAV_36,
     TD_NAV_37,
-    TD_NAV_42,
-    TD_NAV_43,
+    TD_NAV_41,
+    TD_NAV_44,
 
     TD_NAV2_20,
     TD_NAV2_21,
@@ -127,6 +129,8 @@ enum {
 #define BASE_35 MT(MOD_RSFT, KC_COMM)
 #define BASE_36 MT(MOD_RCTL, KC_DOT)
 
+#define BASE_16     TD(TD_BASE_16)
+#define BASE_21     TD(TD_BASE_21)
 #define BASE_24     TD(TD_BASE_24)
 #define BASE_31     TD(TD_BASE_31)
 #define BASE_32     TD(TD_BASE_32)
@@ -198,8 +202,8 @@ enum {
 #define NAV_35      TD(TD_NAV_35)
 #define NAV_36      TD(TD_NAV_36)
 #define NAV_37      TD(TD_NAV_37)
-#define NAV_42     TD(TD_NAV_42)
-#define NAV_43     TD(TD_NAV_43)
+#define NAV_41     TD(TD_NAV_41)
+#define NAV_44     TD(TD_NAV_44)
 
 #define NAV2_21     TD(TD_NAV2_20)
 #define NAV2_22     TD(TD_NAV2_21)
@@ -231,7 +235,7 @@ enum {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[BASE] = LAYOUT(
         KC_DEL, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                               KC_J, KC_L,    KC_U,    KC_Y,    DK_QUES, KC_BSPC,
-        KC_TAB, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                                               KC_M, KC_N,    KC_E,    KC_I,    KC_O,    BASE_24,
+        KC_TAB, KC_A,    KC_R,    KC_S, KC_T,    KC_G,                                               KC_M, KC_N,    KC_E, KC_I,    KC_O,    BASE_24,
         KC_NO,  BASE_26, BASE_27, BASE_28, BASE_29, KC_V,     BASE_31,                       BASE_32,   KC_K, BASE_34, BASE_35, BASE_36, BASE_37, KC_NO,
                                             BASE_39, BASE_40, BASE_41, BASE_42,     BASE_43, BASE_44, BASE_45, BASE_46
     ),
@@ -257,7 +261,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         NAV_1,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                               NAV_7,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,  NAV_12,
         KC_NO, NAV_14,  NAV_15,  NAV_16,  NAV_17,  NAV_18,                                                NAV_19, KC_LEFT, KC_UP,   KC_DOWN, KC_RGHT, KC_NO,
         _______, NAV_26,  NAV_27,  NAV_28,  NAV_29,  KC_NO,     _______,                       _______,   NAV_33, NAV_34,  NAV_35,  NAV_36,  NAV_37,  _______,
-                                                _______, _______, _______, NAV_42,     NAV_43, _______, _______, _______
+                                                _______, _______, NAV_41, _______,     _______, NAV_44, _______, _______
     ),
 	[NAV2] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                                              _______, _______, _______, _______, _______, _______,
@@ -275,7 +279,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_SLEP, _______, _______, DM_REC1, DM_REC2, RGB_TOG,                                                   KC_SCRL, _______, _______, _______, _______, QK_BOOT,
         UTIL_13, _______, _______, DM_PLY1, DM_PLY2, RGB_M_R,                                                   _______, KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT, _______,
         _______, _______, _______, KC_CALC, _______, _______,   UTIL_31,                            UTIL_32,    _______, _______, UTIL_35, _______, _______, _______,
-                                            TO(NUMERIC), _______, TO(NUM), TO(NAV),     TO(MOUSE), _______, TO(NUM), TO(NUMERIC)
+                                            TO(NUMERIC), TO(NUM), TO(NAV), TO(SYM),     TO(MOUSE), TO(SYM), TO(NUM), TO(NUMERIC)
     ),
 };
 
@@ -592,6 +596,12 @@ Define Tap-Dance functions and the lookup table
 */
 
 // GENERAL
+TDF_TAP(TD_BASE_16, tap_code(DK_S))
+TDF_HOLD(TD_BASE_16, register_code16(KC_LSFT), unregister_code16(KC_LSFT))
+
+TDF_TAP(TD_BASE_21, tap_code(DK_E))
+TDF_HOLD(TD_BASE_21, register_code16(KC_RSFT), unregister_code16(KC_RSFT))
+
 TDF_TAP(TD_BASE_24, tap_code(DK_AE))
 TDF_DTAP(TD_BASE_24, tap_code(DK_ARNG))
 TDF_HOLD(TD_BASE_24, tap_code(DK_OSTR), {})
@@ -605,22 +615,21 @@ TDF_HOLD(TD_BASE_32, layer_on(UTIL), layer_off(UTIL))
 TDF_TAP(TD_BASE_37, tap_code16(S(DK_MINS)))
 TDF_HOLD(TD_BASE_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
+TDF_TAP(TD_BASE_39, tap_code16(S(DK_DOT)))
 TDF_HOLD(TD_BASE_39, layer_on(NUMERIC), layer_off(NUMERIC))
 TDF_TAPHOLD(TD_BASE_39, { tap_code(KC_CAPS); }, {})
 
 TDF_TAP(TD_BASE_40, tap_code(KC_SPC))
-TDF_HOLD(TD_BASE_40, layer_on(SYM), layer_off(SYM))
+TDF_HOLD(TD_BASE_40, layer_on(NUM), layer_off(NUM))
 
 TDF_TAP(TD_BASE_41, tap_code(KC_SPC))
-TDF_HOLD(TD_BASE_41, layer_on(NUM), layer_off(NUM))
+TDF_HOLD(TD_BASE_41, layer_on(NAV), layer_off(NAV))
 
 TDF_TAP(TD_BASE_42, tap_code(KC_ESC))
-TDF_HOLD(TD_BASE_42, layer_on(NAV), layer_off(NAV))
-TDF_TAPHOLD(TD_BASE_42, layer_on(MOUSE), layer_off(MOUSE))
+TDF_HOLD(TD_BASE_42, layer_on(SYM), layer_off(SYM))
 
 TDF_TAP(TD_BASE_43, tap_code(KC_ESC))
-TDF_HOLD(TD_BASE_43, layer_on(NAV), layer_off(NAV))
-TDF_TAPHOLD(TD_BASE_43, layer_on(MOUSE), layer_off(MOUSE))
+TDF_HOLD(TD_BASE_43, layer_on(MOUSE), layer_off(MOUSE))
 
 TDF_TAP(TD_BASE_44, tap_code(KC_SPC))
 TDF_HOLD(TD_BASE_44, layer_on(SYM), layer_off(SYM))
@@ -628,6 +637,7 @@ TDF_HOLD(TD_BASE_44, layer_on(SYM), layer_off(SYM))
 TDF_TAP(TD_BASE_45, tap_code(KC_SPC))
 TDF_HOLD(TD_BASE_45, layer_on(NUM), layer_off(NUM))
 
+TDF_TAP(TD_BASE_46, tap_code16(S(DK_COMM)))
 TDF_HOLD(TD_BASE_46, layer_on(NUMERIC), layer_off(NUMERIC))
 
 TDF_HOLD(TD_NUMERIC_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
@@ -732,11 +742,14 @@ TDF_HOLD(TD_SYM_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 TDF_TAP(TD_SYM_37, tap_code16(S(DK_COMM)))
 TDF_HOLD(TD_SYM_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
-TDF_TAP(TD_NAV_1, SEND_STRING(SS_LSFT(SS_TAP(X_END)) SS_DELAY(100) SS_TAP(X_DELETE)))
-TDF_TAP(TD_NAV_12, SEND_STRING(SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_BACKSPACE)))
+TDF_TAP(TD_NAV_1, tap_code16(KC_DEL))
+TDF_HOLD(TD_NAV_1, SEND_STRING(SS_LSFT(SS_TAP(X_END)) SS_DELAY(100) SS_TAP(X_DELETE)), {})
 
 TDF_TAP(TD_NAV_7, tap_code16(KC_PAUSE))
 TDF_DTAP(TD_NAV_7, tap_code16(KC_INS))
+
+TDF_TAP(TD_NAV_12, tap_code16(KC_BSPC))
+TDF_HOLD(TD_NAV_12, SEND_STRING(SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_BACKSPACE)), {})
 
 TDF_TAP(TD_NAV_14, { tap_code16(C(KC_SLSH)); }) // Go back
 TDF_HOLD(TD_NAV_14, layer_on(NAV2), layer_off(NAV2))
@@ -792,13 +805,11 @@ TDF_HOLD(TD_NAV_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 TDF_TAP(TD_NAV_37, { tap_code16(KC_APP); })
 TDF_HOLD(TD_NAV_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
-TDF_TAP(TD_NAV_42, tap_code(KC_ESC))
-TDF_HOLD(TD_NAV_42, layer_on(NAV2), layer_off(NAV2))
-TDF_TAPHOLD(TD_NAV_42, layer_on(MOUSE), layer_off(MOUSE))
+TDF_TAP(TD_NAV_41, tap_code(KC_SPC))
+TDF_HOLD(TD_NAV_41, layer_on(NAV2), layer_off(NAV2))
 
-TDF_TAP(TD_NAV_43, tap_code(KC_ESC))
-TDF_HOLD(TD_NAV_43, layer_on(NAV2), layer_off(NAV2))
-TDF_TAPHOLD(TD_NAV_43, layer_on(MOUSE), layer_off(MOUSE))
+TDF_TAP(TD_NAV_44, tap_code(KC_SPC))
+TDF_HOLD(TD_NAV_44, layer_on(NAV2), layer_off(NAV2))
 
 TDF_TAP(TD_NAV2_20, {
     tap_code16(C(KC_J));
@@ -900,18 +911,20 @@ TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
 })
 
 tap_dance_action_t tap_dance_actions[] = {
+    TDA_TAP_HOLD(TD_BASE_16),
+    TDA_TAP_HOLD(TD_BASE_21),
     TDA_TAP_HOLD_DTAP(TD_BASE_24),
     TDA_TAP_HOLD(TD_BASE_31),
     TDA_TAP_HOLD(TD_BASE_32),
     TDA_TAP_HOLD(TD_BASE_37),
-    TDA_HOLD_TAPHOLD(TD_BASE_39),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_39),
     TDA_TAP_HOLD(TD_BASE_40),
     TDA_TAP_HOLD(TD_BASE_41),
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_42),
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_43),
+    TDA_TAP_HOLD(TD_BASE_42),
+    TDA_TAP_HOLD(TD_BASE_43),
     TDA_TAP_HOLD(TD_BASE_44),
     TDA_TAP_HOLD(TD_BASE_45),
-    TDA_HOLD(TD_BASE_46),
+    TDA_TAP_HOLD(TD_BASE_46),
 
     TDA_HOLD(TD_NUMERIC_26),
     TDA_TAP_HOLD(TD_NUMERIC_27),
@@ -953,9 +966,9 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD(TD_SYM_36),
     TDA_TAP_HOLD(TD_SYM_37),
 
-    TDA_TAP(TD_NAV_1),
+    TDA_TAP_HOLD(TD_NAV_1),
     TDA_TAP_DTAP(TD_NAV_7),
-    TDA_TAP(TD_NAV_12),
+    TDA_TAP_HOLD(TD_NAV_12),
     TDA_TAP_HOLD(TD_NAV_14),
     TDA_TAP_HOLD_DTAP(TD_NAV_15),
     TDA_TAP_HOLD_DTAP(TD_NAV_16),
@@ -971,8 +984,8 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD(TD_NAV_35),
     TDA_TAP_HOLD(TD_NAV_36),
     TDA_TAP_HOLD(TD_NAV_37),
-    TDA_TAP_HOLD(TD_NAV_42),
-    TDA_TAP_HOLD(TD_NAV_43),
+    TDA_TAP_HOLD(TD_NAV_41),
+    TDA_TAP_HOLD(TD_NAV_44),
 
     TDA_TAP_HOLD_DTAP(TD_NAV2_20),
     TDA_TAP_HOLD_DTAP(TD_NAV2_21),
