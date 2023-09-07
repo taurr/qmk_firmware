@@ -2,6 +2,11 @@
 #include "sendstring_danish.h"
 #include "action_util.h"
 
+bool caps_word_active(void);
+void caps_word_on(void);
+void caps_word_off(void);
+void caps_word_toggle(void);
+bool _caps_word_active = false;
 
 enum layers {
     BASE,
@@ -12,20 +17,28 @@ enum layers {
     NAV2,
     MOUSE,
     UTIL,
+    LAYERS,
 };
 
 /*
  Tap-Dance key codes
  */
 enum {
-    TD_BASE_16,
-    TD_BASE_21,
+    TD_BASE_11,
+    TD_BASE_23,
     TD_BASE_24,
+    TD_BASE_25,
+    TD_BASE_26,
+    TD_BASE_27,
     TD_BASE_28,
+    TD_BASE_29,
     TD_BASE_31,
     TD_BASE_32,
+    TD_BASE_34,
     TD_BASE_35,
+    TD_BASE_36,
     TD_BASE_37,
+    TD_BASE_38,
     TD_BASE_39,
     TD_BASE_40,
     TD_BASE_41,
@@ -123,23 +136,21 @@ enum {
     TD_UTIL_35,
 };
 
-#define BASE_26 MT(MOD_LGUI, KC_Z)
-#define BASE_27 MT(MOD_LCTL, KC_X)
-//#define BASE_28 MT(MOD_LSFT, KC_C)
-#define BASE_29 MT(MOD_LALT, KC_D)
-#define BASE_34 MT(MOD_LALT, KC_H)
-//#define BASE_35 MT(MOD_RSFT, KC_COMM)
-#define BASE_36 MT(MOD_RCTL, KC_DOT)
-#define BASE_37 MT(MOD_RGUI, DK_OSTR)
-
-#define BASE_16     TD(TD_BASE_16)
-#define BASE_21     TD(TD_BASE_21)
+#define BASE_11     TD(TD_BASE_11)
+#define BASE_23     TD(TD_BASE_23)
 #define BASE_24     TD(TD_BASE_24)
+#define BASE_25     TD(TD_BASE_25)
+#define BASE_26     TD(TD_BASE_26)
+#define BASE_27     TD(TD_BASE_27)
+#define BASE_29     TD(TD_BASE_29)
 #define BASE_28     TD(TD_BASE_28)
 #define BASE_31     TD(TD_BASE_31)
 #define BASE_32     TD(TD_BASE_32)
+#define BASE_34     TD(TD_BASE_34)
 #define BASE_35     TD(TD_BASE_35)
-//#define BASE_37     TD(TD_BASE_37)
+#define BASE_36     TD(TD_BASE_36)
+#define BASE_37     TD(TD_BASE_37)
+#define BASE_38     TD(TD_BASE_38)
 #define BASE_39     TD(TD_BASE_39)
 #define BASE_40     TD(TD_BASE_40)
 #define BASE_41     TD(TD_BASE_41)
@@ -234,14 +245,13 @@ enum {
 
 #define UTIL_13     TD(TD_UTIL_13)
 #define UTIL_35     TD(TD_UTIL_35)
-#define UTIL_31     TD(TD_UTIL_BACK_TO_BASICS)
-#define UTIL_32     TD(TD_UTIL_BACK_TO_BASICS)
+#define RST_LAY     TD(TD_UTIL_BACK_TO_BASICS)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[BASE] = LAYOUT(
-        KC_DEL, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                               KC_J, KC_L,    KC_U,    KC_Y,    DK_QUES, KC_BSPC,
-        KC_TAB, KC_A,    KC_R,    KC_S, KC_T,    KC_G,                                               KC_M, KC_N,    KC_E, KC_I,    KC_O,    BASE_24,
-        KC_NO,  BASE_26, BASE_27, BASE_28, BASE_29, KC_V,     BASE_31,                       BASE_32,   KC_K, BASE_34, BASE_35, BASE_36, BASE_37, KC_NO,
+        KC_DEL,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                               KC_J, KC_L,    KC_U,    KC_Y,    BASE_11, KC_BSPC,
+        KC_TAB,   KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                                               KC_M, KC_N,    KC_E,    KC_I,    BASE_23, BASE_24,
+        BASE_25,  BASE_26, BASE_27, BASE_28, BASE_29, KC_V,     BASE_31,                       BASE_32,   KC_K, BASE_34, BASE_35, BASE_36, BASE_37, BASE_38,
                                             BASE_39, BASE_40, BASE_41, BASE_42,     BASE_43, BASE_44, BASE_45, BASE_46
     ),
 	[NUMERIC] = LAYOUT(
@@ -283,30 +293,71 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[UTIL] = LAYOUT(
         KC_SLEP, _______, _______, DM_REC1, DM_REC2, RGB_TOG,                                                   KC_SCRL, _______, _______, _______, _______, QK_BOOT,
         UTIL_13, _______, _______, DM_PLY1, DM_PLY2, RGB_M_R,                                                   _______, KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT, _______,
-        _______, _______, _______, KC_CALC, _______, _______,   UTIL_31,                            UTIL_32,    _______, _______, UTIL_35, _______, _______, _______,
-                                            TO(NUMERIC), TO(NUM), TO(NAV), TO(SYM),     TO(MOUSE), TO(SYM), TO(NUM), TO(NUMERIC)
+        _______, _______, _______, KC_CALC, _______, _______,   RST_LAY,                            RST_LAY,    _______, _______, UTIL_35, _______, _______, _______,
+                                            _______, _______, _______, _______,     _______, _______, _______, _______
+    ),
+	[LAYERS] = LAYOUT(
+        _______, _______, _______, _______, _______, _______,                                                   _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,                                                   _______, _______, _______, _______, _______, _______,
+        RST_LAY, _______, _______, _______, _______, _______,   _______,                            _______,    _______, _______, _______, _______, _______, RST_LAY,
+                                            TO(NUMERIC), TO(NUM), TO(NAV), TO(SYM),     TO(SYM), TO(MOUSE), TO(NUM), TO(NUMERIC)
     ),
 };
+
+bool caps_word_active(void)
+{
+    return _caps_word_active;
+}
+void caps_word_on()
+{
+    _caps_word_active = true;
+    add_weak_mods(MOD_LSFT);
+}
+void caps_word_off()
+{
+    _caps_word_active = false;
+    del_weak_mods(MOD_LSFT);
+}
+void caps_word_toggle()
+{
+    if (caps_word_active()) {
+        caps_word_off();
+    } else {
+        caps_word_on();
+    }
+}
 
 void keyboard_post_init_user(void) {
     // Enable the LED layers
     layer_state_set_user(layer_state);
 }
 
-bool caps_word_press_user(uint16_t keycode) {
-    switch (keycode) {
-        // Keycodes that continue Caps Word, with shift applied.
-        case KC_A ... KC_Z:
-        case DK_AE:
-        case DK_ARNG:
-        case DK_OSTR:
-        case DK_MINS:
-            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
-            return true;
+bool process_record_kb(uint16_t keycode, keyrecord_t *record)
+{
+    if (BASE == layer_state && caps_word_active())
+    {
+        if (record->event.pressed) {
+            switch(keycode) {
+                case KC_DEL:
+                case BASE_11:
+                case BASE_25:
+                case BASE_31:
+                case BASE_32:
+                case BASE_35:
+                case BASE_36:
+                case BASE_38:
+                case BASE_42:
+                case BASE_43:
+                    caps_word_off();
+                    return process_record_user(keycode, record);
+            }
 
-        default:
-            return false; // Deactivate Caps Word.
+            add_weak_mods(MOD_LSFT);
+        } else {
+            del_weak_mods(MOD_LSFT);
+        }
     }
+    return process_record_user(keycode, record);
 }
 
 extern rgblight_config_t rgblight_config;
@@ -347,6 +398,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgblight_enable_noeeprom();
             rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
             rgblight_sethsv_noeeprom(HSV_YELLOW);
+            break;
+        case LAYERS:
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
             break;
         default: //  for any other layers, or the default layer
             // Read RGB Light State
@@ -396,10 +451,11 @@ typedef struct {
     td_hold_action_t double_hold;
     td_state_t state;
     bool is_press_action;
+    bool interrupt_hold;
 } td_tap_user_t;
 
 // Initialization of the tap dance actions, using our custom functions
-#define __TDA_DEFINITION__(KC, ST_ACTION_FN, SH_ACTION_FN, SH_RESET_FN, DT_ACTION_FN, DH_ACTION_FN, DH_RESET_FN) [KC] = { \
+#define __TDA_DEFINITION__(KC, ihold, ST_ACTION_FN, SH_ACTION_FN, SH_RESET_FN, DT_ACTION_FN, DH_ACTION_FN, DH_RESET_FN) [KC] = { \
         .fn = { \
             td_each, \
             td_finished, \
@@ -407,6 +463,7 @@ typedef struct {
         }, \
         .user_data = &(td_tap_user_t){ \
             .is_press_action = true, \
+            .interrupt_hold = ihold, \
             .state = TD_NONE, \
             .single_tap = { \
                 .tap_fn = ST_ACTION_FN, \
@@ -433,21 +490,37 @@ typedef struct {
 
 // Permutations of definitions for Single Tap, Single Hold, Double Tap and Tap Hold (Double Hold).
 // If using DEFAULT_KC, it'll be sent if a sequence is interrupted, or the user taps too many times.
-#define TDA_TAP(KC) __TDA_DEFINITION__(KC, KC ## _st_action, NULL, NULL, NULL, NULL, NULL)
-#define TDA_HOLD(KC) __TDA_DEFINITION__(KC, NULL, KC ## _sh_action, KC ## _sh_reset, NULL, NULL, NULL)
-#define TDA_TAP_HOLD(KC) __TDA_DEFINITION__(KC, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, NULL, NULL, NULL)
-#define TDA_DTAP(KC) __TDA_DEFINITION__(KC, NULL, NULL, NULL, KC ## _dt_action, NULL, NULL)
-#define TDA_TAP_DTAP(KC) __TDA_DEFINITION__(KC, KC ## _st_action, NULL, NULL, KC ## _dt_action, NULL, NULL)
-#define TDA_HOLD_DTAP(KC) __TDA_DEFINITION__(KC, NULL, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, NULL, NULL)
-#define TDA_TAP_HOLD_DTAP(KC) __TDA_DEFINITION__(KC, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, NULL, NULL)
-#define TDA_TAPHOLD(KC) __TDA_DEFINITION__(KC, NULL, NULL, NULL, NULL, KC ## _dh_action, KC ## _dh_reset)
-#define TDA_TAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, KC ## _st_action, NULL, NULL, NULL,  KC ## _dh_action, KC ## _dh_reset)
-#define TDA_HOLD_TAPHOLD(KC) __TDA_DEFINITION__(KC, NULL, KC ## _sh_action, KC ## _sh_reset, NULL,  KC ## _dh_action, KC ## _dh_reset)
-#define TDA_TAP_HOLD_TAPHOLD(KC) __TDA_DEFINITION__(KC, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, NULL, KC ## _dh_action, KC ## _dh_reset)
-#define TDA_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, NULL, NULL, NULL, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
-#define TDA_TAP_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, KC ## _st_action, NULL, NULL, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
-#define TDA_HOLD_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, NULL, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
-#define TDA_TAP_HOLD_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_TAP(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, NULL, NULL, NULL, NULL, NULL)
+#define TDA_HOLD(KC) __TDA_DEFINITION__(KC, true, NULL, KC ## _sh_action, KC ## _sh_reset, NULL, NULL, NULL)
+#define TDA_TAP_HOLD(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, NULL, NULL, NULL)
+#define TDA_DTAP(KC) __TDA_DEFINITION__(KC, true, NULL, NULL, NULL, KC ## _dt_action, NULL, NULL)
+#define TDA_TAP_DTAP(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, NULL, NULL, KC ## _dt_action, NULL, NULL)
+#define TDA_HOLD_DTAP(KC) __TDA_DEFINITION__(KC, true, NULL, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, NULL, NULL)
+#define TDA_TAP_HOLD_DTAP(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, NULL, NULL)
+#define TDA_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, NULL, NULL, NULL, NULL, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_TAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, NULL, NULL, NULL,  KC ## _dh_action, KC ## _dh_reset)
+#define TDA_HOLD_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, NULL, KC ## _sh_action, KC ## _sh_reset, NULL,  KC ## _dh_action, KC ## _dh_reset)
+#define TDA_TAP_HOLD_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, NULL, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, NULL, NULL, NULL, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_TAP_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, NULL, NULL, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_HOLD_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, NULL, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_TAP_HOLD_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, true, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+
+#define TDA_NOINTERRUPT_TAP(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, NULL, NULL, NULL, NULL, NULL)
+#define TDA_NOINTERRUPT_HOLD(KC) __TDA_DEFINITION__(KC, false, NULL, KC ## _sh_action, KC ## _sh_reset, NULL, NULL, NULL)
+#define TDA_NOINTERRUPT_TAP_HOLD(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, NULL, NULL, NULL)
+#define TDA_NOINTERRUPT_DTAP(KC) __TDA_DEFINITION__(KC, false, NULL, NULL, NULL, KC ## _dt_action, NULL, NULL)
+#define TDA_NOINTERRUPT_TAP_DTAP(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, NULL, NULL, KC ## _dt_action, NULL, NULL)
+#define TDA_NOINTERRUPT_HOLD_DTAP(KC) __TDA_DEFINITION__(KC, false, NULL, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, NULL, NULL)
+#define TDA_NOINTERRUPT_TAP_HOLD_DTAP(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, NULL, NULL)
+#define TDA_NOINTERRUPT_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, NULL, NULL, NULL, NULL, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_TAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, NULL, NULL, NULL,  KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_HOLD_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, NULL, KC ## _sh_action, KC ## _sh_reset, NULL,  KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_TAP_HOLD_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, NULL, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, NULL, NULL, NULL, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_TAP_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, NULL, NULL, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_HOLD_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, NULL, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
+#define TDA_NOINTERRUPT_TAP_HOLD_DTAP_TAPHOLD(KC) __TDA_DEFINITION__(KC, false, KC ## _st_action, KC ## _sh_action, KC ## _sh_reset, KC ## _dt_action, KC ## _dh_action, KC ## _dh_reset)
 
 // Return an integer that corresponds to what kind of tap dance should be executed.
 td_state_t decide_tap_dance_outcome(tap_dance_state_t *state, td_tap_user_t *user_data) {
@@ -460,7 +533,7 @@ td_state_t decide_tap_dance_outcome(tap_dance_state_t *state, td_tap_user_t *use
                 return TD_SINGLE_TAP;
             } else {
                 user_data->is_press_action = true;
-                return TD_SINGLE_HOLD;
+                return user_data->interrupt_hold ? TD_SINGLE_HOLD : TD_SINGLE_TAP;
             }
         }
         else if (!state->pressed) {
@@ -601,12 +674,55 @@ Define Tap-Dance functions and the lookup table
 */
 
 // GENERAL
-TDF_TAP(TD_BASE_24, tap_code(DK_ARNG))
-TDF_HOLD(TD_BASE_24, tap_code(DK_AE), {})
+TDF_TAP(TD_BASE_11, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    tap_code16(DK_QUES);
+})
+TDF_HOLD(TD_BASE_11, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    tap_code(DK_ARNG);
+}, {})
+
+TDF_TAP(TD_BASE_23, tap_code(KC_O))
+TDF_HOLD(TD_BASE_23, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    tap_code(DK_OSTR);
+}, {})
+
+TDF_HOLD(TD_BASE_24, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    tap_code(DK_AE);
+}, {})
+
+TDF_HOLD(TD_BASE_25, layer_on(LAYERS), layer_off(LAYERS))
+
+TDF_TAP(TD_BASE_26, tap_code(KC_Z))
+TDF_HOLD(TD_BASE_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
+
+TDF_TAP(TD_BASE_27, tap_code(KC_X))
+TDF_HOLD(TD_BASE_27, register_code(KC_LCTL), unregister_code(KC_LCTL))
 
 TDF_TAP(TD_BASE_28, tap_code(KC_C))
-TDF_HOLD(TD_BASE_28, register_code(KC_LSFT), unregister_code(KC_LSFT))
-TDF_TAPHOLD(TD_BASE_28, tap_code(KC_CAPS), {})
+TDF_HOLD(TD_BASE_28, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    register_code(KC_LSFT);
+}, unregister_code(KC_LSFT))
+TDF_TAPHOLD(TD_BASE_28, {
+    caps_word_toggle();
+}, {})
+
+TDF_TAP(TD_BASE_29, tap_code(KC_D))
+TDF_HOLD(TD_BASE_29, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_BASE_31, tap_code(KC_ENTER))
 TDF_HOLD(TD_BASE_31, layer_on(UTIL), layer_off(UTIL))
@@ -614,35 +730,106 @@ TDF_HOLD(TD_BASE_31, layer_on(UTIL), layer_off(UTIL))
 TDF_TAP(TD_BASE_32, tap_code(KC_ENTER))
 TDF_HOLD(TD_BASE_32, layer_on(UTIL), layer_off(UTIL))
 
+TDF_TAP(TD_BASE_34, tap_code(DK_H))
+TDF_HOLD(TD_BASE_34, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_BASE_35, tap_code(DK_COMM))
-TDF_HOLD(TD_BASE_35, register_code(KC_RSFT), unregister_code(KC_RSFT))
-TDF_TAPHOLD(TD_BASE_35, tap_code(KC_CAPS), {})
+TDF_HOLD(TD_BASE_35, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    register_code(KC_RSFT);
+}, unregister_code(KC_RSFT))
+TDF_TAPHOLD(TD_BASE_35, {
+    caps_word_toggle();
+}, {})
 
-TDF_TAP(TD_BASE_39, tap_code16(S(DK_DOT)))
+TDF_TAP(TD_BASE_36, tap_code(DK_DOT))
+TDF_HOLD(TD_BASE_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
+
+TDF_TAP(TD_BASE_37, tap_code(DK_MINS))
+TDF_HOLD(TD_BASE_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
+
+TDF_HOLD(TD_BASE_38, layer_on(LAYERS), layer_off(LAYERS))
+
+TDF_TAP(TD_BASE_39, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+})
 TDF_HOLD(TD_BASE_39, layer_on(NUMERIC), layer_off(NUMERIC))
 
-TDF_TAP(TD_BASE_40, tap_code(KC_SPC))
+TDF_TAP(TD_BASE_40, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    tap_code16(S(DK_DOT));
+})
 TDF_HOLD(TD_BASE_40, layer_on(NUM), layer_off(NUM))
 
-TDF_TAP(TD_BASE_41, tap_code(KC_SPC))
-TDF_HOLD(TD_BASE_41, layer_on(NAV), layer_off(NAV))
+TDF_TAP(TD_BASE_41, {
+    if (caps_word_active()) {
+        tap_code16(DK_MINS);
+        return;
+    }
+    tap_code(KC_SPC);
+})
+TDF_HOLD(TD_BASE_41, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    layer_on(NAV);
+}, layer_off(NAV))
+TDF_DTAP(TD_BASE_41, {
+    if (caps_word_active()) {
+        caps_word_off();
+        tap_code(KC_SPC);
+        return;
+    }
+    tap_code(KC_SPC);
+    tap_code(KC_SPC);
+})
 
 TDF_TAP(TD_BASE_42, tap_code(KC_ESC))
 TDF_HOLD(TD_BASE_42, layer_on(SYM), layer_off(SYM))
 TDF_TAPHOLD(TD_BASE_42, layer_on(MOUSE), layer_off(MOUSE))
 
 TDF_TAP(TD_BASE_43, tap_code(KC_ESC))
-TDF_HOLD(TD_BASE_43, layer_on(SYM), layer_off(SYM))
+TDF_HOLD(TD_BASE_43, layer_on(NAV), layer_off(NAV))
 TDF_TAPHOLD(TD_BASE_43, layer_on(MOUSE), layer_off(MOUSE))
 
-TDF_TAP(TD_BASE_44, tap_code(KC_SPC))
-TDF_HOLD(TD_BASE_44, layer_on(NAV), layer_off(NAV))
+TDF_TAP(TD_BASE_44, {
+    if (caps_word_active()) {
+        tap_code16(DK_MINS);
+        return;
+    }
+    tap_code(KC_SPC);
+})
+TDF_HOLD(TD_BASE_44, {
+    if (caps_word_active()) {
+        caps_word_off();
+    }
+    layer_on(SYM);
+}, layer_off(SYM))
+TDF_DTAP(TD_BASE_44, {
+    if (caps_word_active()) {
+        caps_word_off();
+        tap_code(KC_SPC);
+        return;
+    }
+    tap_code(KC_SPC);
+    tap_code(KC_SPC);
+})
 
-TDF_TAP(TD_BASE_45, tap_code(KC_SPC))
+TDF_TAP(TD_BASE_45, {
+    caps_word_off();
+    tap_code16(S(DK_COMM));
+})
 TDF_HOLD(TD_BASE_45, layer_on(NUM), layer_off(NUM))
 
-TDF_TAP(TD_BASE_46, tap_code16(S(DK_COMM)))
+TDF_TAP(TD_BASE_46, {
+    caps_word_off();
+})
 TDF_HOLD(TD_BASE_46, layer_on(NUMERIC), layer_off(NUMERIC))
 
 TDF_HOLD(TD_NUMERIC_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
@@ -915,17 +1102,27 @@ TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
 })
 
 tap_dance_action_t tap_dance_actions[] = {
-    TDA_TAP_HOLD(TD_BASE_24),
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_11),
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_23),
+    TDA_NOINTERRUPT_HOLD(TD_BASE_24),
+    TDA_HOLD(TD_BASE_25),
+    TDA_TAP_HOLD(TD_BASE_26),
+    TDA_TAP_HOLD(TD_BASE_27),
     TDA_TAP_HOLD_TAPHOLD(TD_BASE_28),
+    TDA_TAP_HOLD(TD_BASE_29),
     TDA_TAP_HOLD(TD_BASE_31),
     TDA_TAP_HOLD(TD_BASE_32),
+    TDA_TAP_HOLD(TD_BASE_34),
     TDA_TAP_HOLD_TAPHOLD(TD_BASE_35),
+    TDA_TAP_HOLD(TD_BASE_36),
+    TDA_TAP_HOLD(TD_BASE_37),
+    TDA_HOLD(TD_BASE_38),
     TDA_TAP_HOLD(TD_BASE_39),
     TDA_TAP_HOLD(TD_BASE_40),
-    TDA_TAP_HOLD(TD_BASE_41),
+    TDA_TAP_HOLD_DTAP(TD_BASE_41),
     TDA_TAP_HOLD_TAPHOLD(TD_BASE_42),
     TDA_TAP_HOLD_TAPHOLD(TD_BASE_43),
-    TDA_TAP_HOLD(TD_BASE_44),
+    TDA_TAP_HOLD_DTAP(TD_BASE_44),
     TDA_TAP_HOLD(TD_BASE_45),
     TDA_TAP_HOLD(TD_BASE_46),
 
