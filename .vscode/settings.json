@@ -53,5 +53,6 @@
     "peacock.remoteColor": "#10c322",
     "editor.formatOnPaste": false,
     "editor.formatOnSave": false,
-    "editor.formatOnType": false
+    "editor.formatOnType": false,
+    "cmake.sourceDirectory": "/home/johnny/Projects/github/qmk/qmk-hillside/qmk_firmware/lib/pico-sdk/src/common/pico_util"
 }

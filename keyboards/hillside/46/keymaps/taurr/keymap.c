@@ -21,8 +21,10 @@ enum {
     TD_BASE_16,
     TD_BASE_21,
     TD_BASE_24,
+    TD_BASE_28,
     TD_BASE_31,
     TD_BASE_32,
+    TD_BASE_35,
     TD_BASE_37,
     TD_BASE_39,
     TD_BASE_40,
@@ -123,18 +125,21 @@ enum {
 
 #define BASE_26 MT(MOD_LGUI, KC_Z)
 #define BASE_27 MT(MOD_LCTL, KC_X)
-#define BASE_28 MT(MOD_LSFT, KC_C)
+//#define BASE_28 MT(MOD_LSFT, KC_C)
 #define BASE_29 MT(MOD_LALT, KC_D)
 #define BASE_34 MT(MOD_LALT, KC_H)
-#define BASE_35 MT(MOD_RSFT, KC_COMM)
+//#define BASE_35 MT(MOD_RSFT, KC_COMM)
 #define BASE_36 MT(MOD_RCTL, KC_DOT)
+#define BASE_37 MT(MOD_RGUI, DK_OSTR)
 
 #define BASE_16     TD(TD_BASE_16)
 #define BASE_21     TD(TD_BASE_21)
 #define BASE_24     TD(TD_BASE_24)
+#define BASE_28     TD(TD_BASE_28)
 #define BASE_31     TD(TD_BASE_31)
 #define BASE_32     TD(TD_BASE_32)
-#define BASE_37     TD(TD_BASE_37)
+#define BASE_35     TD(TD_BASE_35)
+//#define BASE_37     TD(TD_BASE_37)
 #define BASE_39     TD(TD_BASE_39)
 #define BASE_40     TD(TD_BASE_40)
 #define BASE_41     TD(TD_BASE_41)
@@ -265,7 +270,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 	[NAV2] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                                              _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______,                                              _______, NAV2_20, NAV2_21, NAV2_22, NAV2_23, _______,
+        _______, G(C(KC_LEFT)), G(C(KC_UP)), G(C(KC_DOWN)), G(C(KC_RGHT)), _______,                                              _______, NAV2_20, NAV2_21, NAV2_22, NAV2_23, _______,
         _______, NAV2_26, NAV2_27, NAV2_28, NAV2_29, _______,    _______,                       _______,   _______, NAV2_34, NAV2_35, NAV2_36, NAV2_37, _______,
                                                 _______, _______, _______, _______,     _______, _______, _______, _______
     ),
@@ -596,15 +601,12 @@ Define Tap-Dance functions and the lookup table
 */
 
 // GENERAL
-TDF_TAP(TD_BASE_16, tap_code(DK_S))
-TDF_HOLD(TD_BASE_16, register_code16(KC_LSFT), unregister_code16(KC_LSFT))
+TDF_TAP(TD_BASE_24, tap_code(DK_ARNG))
+TDF_HOLD(TD_BASE_24, tap_code(DK_AE), {})
 
-TDF_TAP(TD_BASE_21, tap_code(DK_E))
-TDF_HOLD(TD_BASE_21, register_code16(KC_RSFT), unregister_code16(KC_RSFT))
-
-TDF_TAP(TD_BASE_24, tap_code(DK_AE))
-TDF_DTAP(TD_BASE_24, tap_code(DK_ARNG))
-TDF_HOLD(TD_BASE_24, tap_code(DK_OSTR), {})
+TDF_TAP(TD_BASE_28, tap_code(KC_C))
+TDF_HOLD(TD_BASE_28, register_code(KC_LSFT), unregister_code(KC_LSFT))
+TDF_TAPHOLD(TD_BASE_28, tap_code(KC_CAPS), {})
 
 TDF_TAP(TD_BASE_31, tap_code(KC_ENTER))
 TDF_HOLD(TD_BASE_31, layer_on(UTIL), layer_off(UTIL))
@@ -612,12 +614,13 @@ TDF_HOLD(TD_BASE_31, layer_on(UTIL), layer_off(UTIL))
 TDF_TAP(TD_BASE_32, tap_code(KC_ENTER))
 TDF_HOLD(TD_BASE_32, layer_on(UTIL), layer_off(UTIL))
 
-TDF_TAP(TD_BASE_37, tap_code16(S(DK_MINS)))
-TDF_HOLD(TD_BASE_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
+
+TDF_TAP(TD_BASE_35, tap_code(DK_COMM))
+TDF_HOLD(TD_BASE_35, register_code(KC_RSFT), unregister_code(KC_RSFT))
+TDF_TAPHOLD(TD_BASE_35, tap_code(KC_CAPS), {})
 
 TDF_TAP(TD_BASE_39, tap_code16(S(DK_DOT)))
 TDF_HOLD(TD_BASE_39, layer_on(NUMERIC), layer_off(NUMERIC))
-TDF_TAPHOLD(TD_BASE_39, { tap_code(KC_CAPS); }, {})
 
 TDF_TAP(TD_BASE_40, tap_code(KC_SPC))
 TDF_HOLD(TD_BASE_40, layer_on(NUM), layer_off(NUM))
@@ -627,12 +630,14 @@ TDF_HOLD(TD_BASE_41, layer_on(NAV), layer_off(NAV))
 
 TDF_TAP(TD_BASE_42, tap_code(KC_ESC))
 TDF_HOLD(TD_BASE_42, layer_on(SYM), layer_off(SYM))
+TDF_TAPHOLD(TD_BASE_42, layer_on(MOUSE), layer_off(MOUSE))
 
 TDF_TAP(TD_BASE_43, tap_code(KC_ESC))
-TDF_HOLD(TD_BASE_43, layer_on(MOUSE), layer_off(MOUSE))
+TDF_HOLD(TD_BASE_43, layer_on(SYM), layer_off(SYM))
+TDF_TAPHOLD(TD_BASE_43, layer_on(MOUSE), layer_off(MOUSE))
 
 TDF_TAP(TD_BASE_44, tap_code(KC_SPC))
-TDF_HOLD(TD_BASE_44, layer_on(SYM), layer_off(SYM))
+TDF_HOLD(TD_BASE_44, layer_on(NAV), layer_off(NAV))
 
 TDF_TAP(TD_BASE_45, tap_code(KC_SPC))
 TDF_HOLD(TD_BASE_45, layer_on(NUM), layer_off(NUM))
@@ -736,10 +741,9 @@ TDF_HOLD(TD_SYM_34, register_code(KC_LALT), unregister_code(KC_LALT))
 TDF_TAP(TD_SYM_35, tap_code16(DK_MINS))
 TDF_HOLD(TD_SYM_35, register_code(KC_RSFT), unregister_code(KC_RSFT))
 
-TDF_TAP(TD_SYM_36, tap_code16(S(DK_DOT)))
 TDF_HOLD(TD_SYM_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 
-TDF_TAP(TD_SYM_37, tap_code16(S(DK_COMM)))
+TDF_TAP(TD_SYM_37, tap_code16(S(DK_MINS)))
 TDF_HOLD(TD_SYM_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
 TDF_TAP(TD_NAV_1, tap_code16(KC_DEL))
@@ -752,7 +756,7 @@ TDF_TAP(TD_NAV_12, tap_code16(KC_BSPC))
 TDF_HOLD(TD_NAV_12, SEND_STRING(SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_BACKSPACE)), {})
 
 TDF_TAP(TD_NAV_14, { tap_code16(C(KC_SLSH)); }) // Go back
-TDF_HOLD(TD_NAV_14, layer_on(NAV2), layer_off(NAV2))
+TDF_HOLD(TD_NAV_14, register_code16(KC_LGUI), unregister_code16(KC_LGUI))
 
 TDF_TAP(TD_NAV_15, { tap_code16(C(S(KC_J))); }) // Previous bookmark
 TDF_DTAP(TD_NAV_15, { tap_code16(S(KC_F7)); }) // Previous reference
@@ -911,17 +915,16 @@ TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
 })
 
 tap_dance_action_t tap_dance_actions[] = {
-    TDA_TAP_HOLD(TD_BASE_16),
-    TDA_TAP_HOLD(TD_BASE_21),
-    TDA_TAP_HOLD_DTAP(TD_BASE_24),
+    TDA_TAP_HOLD(TD_BASE_24),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_28),
     TDA_TAP_HOLD(TD_BASE_31),
     TDA_TAP_HOLD(TD_BASE_32),
-    TDA_TAP_HOLD(TD_BASE_37),
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_39),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_35),
+    TDA_TAP_HOLD(TD_BASE_39),
     TDA_TAP_HOLD(TD_BASE_40),
     TDA_TAP_HOLD(TD_BASE_41),
-    TDA_TAP_HOLD(TD_BASE_42),
-    TDA_TAP_HOLD(TD_BASE_43),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_42),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_43),
     TDA_TAP_HOLD(TD_BASE_44),
     TDA_TAP_HOLD(TD_BASE_45),
     TDA_TAP_HOLD(TD_BASE_46),
@@ -963,7 +966,7 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD_TAPHOLD(TD_SYM_33),
     TDA_TAP_HOLD(TD_SYM_34),
     TDA_TAP_HOLD(TD_SYM_35),
-    TDA_TAP_HOLD(TD_SYM_36),
+    TDA_HOLD(TD_SYM_36),
     TDA_TAP_HOLD(TD_SYM_37),
 
     TDA_TAP_HOLD(TD_NAV_1),
