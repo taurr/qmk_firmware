@@ -9,7 +9,7 @@
 //#define EE_HANDS
 //#define SPLIT_USB_DETECT
 
-#define TAPPING_TERM 225
+#define TAPPING_TERM 200
 #define QUICK_TAP_TERM 120
 
 #define SPLIT_LAYER_STATE_ENABLE

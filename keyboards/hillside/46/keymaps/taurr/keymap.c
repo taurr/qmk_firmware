@@ -87,6 +87,7 @@ enum {
     TD_SYM_35,
     TD_SYM_36,
     TD_SYM_37,
+    TD_SYM_41,
 
     TD_NAV_1,
     TD_NAV_7,
@@ -106,7 +107,6 @@ enum {
     TD_NAV_35,
     TD_NAV_36,
     TD_NAV_37,
-    TD_NAV_41,
     TD_NAV_44,
 
     TD_NAV2_20,
@@ -140,16 +140,24 @@ enum {
 #define BASE_23     TD(TD_BASE_23)
 #define BASE_24     TD(TD_BASE_24)
 #define BASE_25     TD(TD_BASE_25)
-#define BASE_26     TD(TD_BASE_26)
-#define BASE_27     TD(TD_BASE_27)
-#define BASE_29     TD(TD_BASE_29)
-#define BASE_28     TD(TD_BASE_28)
+#define BASE_26     MT(MOD_LGUI, KC_Z)
+//TD(TD_BASE_26)  // z + win
+#define BASE_27     MT(MOD_LCTL, KC_X)
+//TD(TD_BASE_27)  // x + ctrl
+#define BASE_28     MT(MOD_LSFT, KC_C)
+//TD(TD_BASE_28)  // c + shift
+#define BASE_29     MT(MOD_LALT, KC_D)
+//TD(TD_BASE_29)  // d + alt
 #define BASE_31     TD(TD_BASE_31)
 #define BASE_32     TD(TD_BASE_32)
-#define BASE_34     TD(TD_BASE_34)
-#define BASE_35     TD(TD_BASE_35)
-#define BASE_36     TD(TD_BASE_36)
-#define BASE_37     TD(TD_BASE_37)
+#define BASE_34     MT(MOD_LALT, KC_H)
+//TD(TD_BASE_34)  // h + alt
+#define BASE_35     MT(MOD_RSFT, DK_COMM)
+//TD(TD_BASE_35)  // , + shift
+#define BASE_36     MT(MOD_RCTL, DK_DOT)
+//TD(TD_BASE_36)  // . + ctrl
+#define BASE_37     MT(MOD_RGUI, S(DK_MINS))
+//TD(TD_BASE_37)  // _ + win
 #define BASE_38     TD(TD_BASE_38)
 #define BASE_39     TD(TD_BASE_39)
 #define BASE_40     TD(TD_BASE_40)
@@ -199,6 +207,7 @@ enum {
 #define SYM_35      TD(TD_SYM_35)
 #define SYM_36      TD(TD_SYM_36)
 #define SYM_37      TD(TD_SYM_37)
+#define SYM_41      TD(TD_SYM_41)
 
 #define NAV_1       TD(TD_NAV_1)
 #define NAV_7       TD(TD_NAV_7)
@@ -218,7 +227,6 @@ enum {
 #define NAV_35      TD(TD_NAV_35)
 #define NAV_36      TD(TD_NAV_36)
 #define NAV_37      TD(TD_NAV_37)
-#define NAV_41     TD(TD_NAV_41)
 #define NAV_44     TD(TD_NAV_44)
 
 #define NAV2_21     TD(TD_NAV2_20)
@@ -267,16 +275,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______, _______,     _______, _______, _______, _______
     ),
 	[SYM] = LAYOUT(
-        KC_DEL, KC_NO, DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                               DK_QUOT, DK_ASTR, SYM_9, DK_PIPE, DK_QUES, KC_BSPC,
+        KC_DEL, KC_NO, DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                                 DK_QUOT, DK_ASTR, SYM_9, DK_PIPE, DK_QUES, KC_BSPC,
         SYM_13, DK_HASH, DK_AMPR, DK_LABK, DK_RABK, DK_TILD,                                               DK_DQUO, DK_LPRN, DK_RPRN, DK_EQL,  DK_PERC, DK_MICR,
-        _______, SYM_26,   SYM_27,  SYM_28, SYM_29, DK_CIRC,     _______,                     _______,     SYM_33, SYM_34, SYM_35, SYM_36, SYM_37, _______,
-                                                _______, _______, _______, _______,   _______, _______, _______, _______
+        _______, SYM_26,   SYM_27,  SYM_28, SYM_29, DK_CIRC,    _______,                     _______,     SYM_33, SYM_34, SYM_35, SYM_36, SYM_37, _______,
+                                               _______, _______, SYM_41, _______,   _______, _______, _______, _______
     ),
 	[NAV] = LAYOUT(
-        NAV_1,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                               NAV_7,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,  NAV_12,
-        KC_NO, NAV_14,  NAV_15,  NAV_16,  NAV_17,  NAV_18,                                                NAV_19, KC_LEFT, KC_UP,   KC_DOWN, KC_RGHT, KC_NO,
-        _______, NAV_26,  NAV_27,  NAV_28,  NAV_29,  KC_NO,     _______,                       _______,   NAV_33, NAV_34,  NAV_35,  NAV_36,  NAV_37,  _______,
-                                                _______, _______, NAV_41, _______,     _______, NAV_44, _______, _______
+    NAV_1,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                                      NAV_7,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,  NAV_12,
+    KC_NO, NAV_14,  NAV_15,  NAV_16,  NAV_17,  NAV_18,                                               NAV_19, KC_LEFT, KC_UP,   KC_DOWN, KC_RGHT, KC_NO,
+    _______, NAV_26,  NAV_27,  NAV_28,  NAV_29,  KC_NO,     _______,                    _______,     NAV_33, NAV_34,  NAV_35,  NAV_36,  NAV_37,  _______,
+                                            _______,_______,_______,_______,    _______, NAV_44,_______,_______
     ),
 	[NAV2] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                                              _______, _______, _______, _______, _______, _______,
@@ -334,27 +342,30 @@ void keyboard_post_init_user(void) {
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record)
 {
-    if (BASE == layer_state && caps_word_active())
+    if (BASE == layer_state)
     {
-        if (record->event.pressed) {
-            switch(keycode) {
-                case KC_DEL:
-                case BASE_11:
-                case BASE_25:
-                case BASE_31:
-                case BASE_32:
-                case BASE_35:
-                case BASE_36:
-                case BASE_38:
-                case BASE_42:
-                case BASE_43:
-                    caps_word_off();
-                    return process_record_user(keycode, record);
-            }
+        if (caps_word_active())
+        {
+            if (record->event.pressed) {
+                switch(keycode) {
+                    case KC_DEL:
+                    case BASE_11:
+                    case BASE_25:
+                    case BASE_31:
+                    case BASE_32:
+                    case BASE_35:
+                    case BASE_36:
+                    case BASE_38:
+                    case BASE_42:
+                    case BASE_43:
+                        caps_word_off();
+                        return process_record_user(keycode, record);
+                }
 
-            add_weak_mods(MOD_LSFT);
-        } else {
-            del_weak_mods(MOD_LSFT);
+                add_weak_mods(MOD_LSFT);
+            } else {
+                del_weak_mods(MOD_LSFT);
+            }
         }
     }
     return process_record_user(keycode, record);
@@ -692,14 +703,17 @@ TDF_HOLD(TD_BASE_23, {
     if (caps_word_active()) {
         caps_word_off();
     }
-    tap_code(DK_OSTR);
+    tap_code(DK_AE);
 }, {})
 
 TDF_HOLD(TD_BASE_24, {
     if (caps_word_active()) {
         caps_word_off();
     }
-    tap_code(DK_AE);
+    tap_code(DK_OSTR);
+}, {})
+TDF_TAPHOLD(TD_BASE_24, {
+        caps_word_toggle();
 }, {})
 
 TDF_HOLD(TD_BASE_25, layer_on(LAYERS), layer_off(LAYERS))
@@ -747,7 +761,7 @@ TDF_TAPHOLD(TD_BASE_35, {
 TDF_TAP(TD_BASE_36, tap_code(DK_DOT))
 TDF_HOLD(TD_BASE_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 
-TDF_TAP(TD_BASE_37, tap_code(DK_MINS))
+TDF_TAP(TD_BASE_37, tap_code16(S(DK_MINS)))
 TDF_HOLD(TD_BASE_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
 TDF_HOLD(TD_BASE_38, layer_on(LAYERS), layer_off(LAYERS))
@@ -933,6 +947,9 @@ TDF_HOLD(TD_SYM_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 TDF_TAP(TD_SYM_37, tap_code16(S(DK_MINS)))
 TDF_HOLD(TD_SYM_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
+TDF_TAP(TD_SYM_41, tap_code(KC_SPC))
+TDF_HOLD(TD_SYM_41, layer_on(NAV2), layer_off(NAV2))
+
 TDF_TAP(TD_NAV_1, tap_code16(KC_DEL))
 TDF_HOLD(TD_NAV_1, SEND_STRING(SS_LSFT(SS_TAP(X_END)) SS_DELAY(100) SS_TAP(X_DELETE)), {})
 
@@ -957,9 +974,9 @@ TDF_TAP(TD_NAV_17, { tap_code16(C(S(KC_L))); }) // Next bookmark
 TDF_DTAP(TD_NAV_17, { tap_code16(KC_F7); }) // Next reference
 TDF_HOLD(TD_NAV_17, register_code16(KC_LALT), unregister_code16(KC_LALT))
 
-TDF_TAP(TD_NAV_18, tap_code16(C(S(KC_F10)))) // Peek definition
-TDF_DTAP(TD_NAV_18, tap_code16(KC_F12))   // Go to definition
-TDF_HOLD(TD_NAV_18, tap_code16(S(KC_F12)), {}) // Go to references
+TDF_TAP(TD_NAV_18, tap_code16(KC_F12))   // Go to definition
+TDF_DTAP(TD_NAV_18, tap_code16(S(KC_F12))) // Go to references
+TDF_HOLD(TD_NAV_18, tap_code16(C(S(KC_F12))), {}) // Peek definition
 TDF_TAPHOLD(TD_NAV_18, tap_code16(A(S(KC_F12))), {}) // Find all references
 
 TDF_TAP(TD_NAV_19, tap_code16(C(S(KC_DOT)))) // Breadcrumb
@@ -995,9 +1012,6 @@ TDF_HOLD(TD_NAV_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 
 TDF_TAP(TD_NAV_37, { tap_code16(KC_APP); })
 TDF_HOLD(TD_NAV_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
-
-TDF_TAP(TD_NAV_41, tap_code(KC_SPC))
-TDF_HOLD(TD_NAV_41, layer_on(NAV2), layer_off(NAV2))
 
 TDF_TAP(TD_NAV_44, tap_code(KC_SPC))
 TDF_HOLD(TD_NAV_44, layer_on(NAV2), layer_off(NAV2))
@@ -1087,40 +1101,43 @@ TDF_TAP(TD_UTIL_35, { tap_code16(KC_MPLY); })
 TDF_HOLD(TD_UTIL_35, { tap_code16(KC_MUTE); }, {})
 
 TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
-    // caps_word_off();
-    unregister_code(KC_LCTL);
-    unregister_code(KC_LSFT);
-    unregister_code(KC_LALT);
-    unregister_code(KC_LGUI);
-    unregister_code(KC_RCTL);
-    unregister_code(KC_RSFT);
-    unregister_code(KC_RALT);
-    unregister_code(KC_RGUI);
+    layer_move(BASE);
+    //unregister_code(KC_LCTL);
+    //unregister_code(KC_LSFT);
+    //unregister_code(KC_LALT);
+    //unregister_code(KC_LGUI);
+    //unregister_code(KC_RCTL);
+    //unregister_code(KC_RSFT);
+    //unregister_code(KC_RALT);
+    //unregister_code(KC_RGUI);
     clear_mods();
     clear_weak_mods();
-    layer_move(BASE);
+    _caps_word_active = false;
+    //caps_word_off();
 })
 
 tap_dance_action_t tap_dance_actions[] = {
     TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_11),
     TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_23),
-    TDA_NOINTERRUPT_HOLD(TD_BASE_24),
-    TDA_HOLD(TD_BASE_25),
-    TDA_TAP_HOLD(TD_BASE_26),
-    TDA_TAP_HOLD(TD_BASE_27),
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_28),
-    TDA_TAP_HOLD(TD_BASE_29),
+    TDA_NOINTERRUPT_HOLD_TAPHOLD(TD_BASE_24),
+    TDA_NOINTERRUPT_HOLD(TD_BASE_25),
+    //TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_26),
+    //TDA_TAP_HOLD(TD_BASE_27),
+    //TDA_TAP_HOLD_TAPHOLD(TD_BASE_28),
+    //TDA_TAP_HOLD(TD_BASE_29),
     TDA_TAP_HOLD(TD_BASE_31),
     TDA_TAP_HOLD(TD_BASE_32),
-    TDA_TAP_HOLD(TD_BASE_34),
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_35),
-    TDA_TAP_HOLD(TD_BASE_36),
-    TDA_TAP_HOLD(TD_BASE_37),
-    TDA_HOLD(TD_BASE_38),
+    //TDA_TAP_HOLD(TD_BASE_34),
+    //TDA_TAP_HOLD_TAPHOLD(TD_BASE_35),
+    //TDA_TAP_HOLD(TD_BASE_36),
+    //TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_37),
+    TDA_NOINTERRUPT_HOLD(TD_BASE_38),
+
     TDA_TAP_HOLD(TD_BASE_39),
     TDA_TAP_HOLD(TD_BASE_40),
     TDA_TAP_HOLD_DTAP(TD_BASE_41),
     TDA_TAP_HOLD_TAPHOLD(TD_BASE_42),
+
     TDA_TAP_HOLD_TAPHOLD(TD_BASE_43),
     TDA_TAP_HOLD_DTAP(TD_BASE_44),
     TDA_TAP_HOLD(TD_BASE_45),
@@ -1165,14 +1182,15 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD(TD_SYM_35),
     TDA_HOLD(TD_SYM_36),
     TDA_TAP_HOLD(TD_SYM_37),
+    TDA_TAP_HOLD(TD_SYM_41),
 
     TDA_TAP_HOLD(TD_NAV_1),
     TDA_TAP_DTAP(TD_NAV_7),
     TDA_TAP_HOLD(TD_NAV_12),
-    TDA_TAP_HOLD(TD_NAV_14),
-    TDA_TAP_HOLD_DTAP(TD_NAV_15),
-    TDA_TAP_HOLD_DTAP(TD_NAV_16),
-    TDA_TAP_HOLD_DTAP(TD_NAV_17),
+    TDA_TAP(TD_NAV_14),
+    TDA_TAP_DTAP(TD_NAV_15),
+    TDA_TAP_DTAP(TD_NAV_16),
+    TDA_TAP_DTAP(TD_NAV_17),
     TDA_TAP_HOLD_DTAP_TAPHOLD(TD_NAV_18),
     TDA_TAP(TD_NAV_19),
     TDA_TAP_HOLD(TD_NAV_26),
@@ -1184,7 +1202,6 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD(TD_NAV_35),
     TDA_TAP_HOLD(TD_NAV_36),
     TDA_TAP_HOLD(TD_NAV_37),
-    TDA_TAP_HOLD(TD_NAV_41),
     TDA_TAP_HOLD(TD_NAV_44),
 
     TDA_TAP_HOLD_DTAP(TD_NAV2_20),
