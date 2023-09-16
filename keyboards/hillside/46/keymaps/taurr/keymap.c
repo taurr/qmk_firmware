@@ -2,20 +2,16 @@
 #include "sendstring_danish.h"
 #include "action_util.h"
 
-bool caps_word_active(void);
-void caps_word_on(void);
-void caps_word_off(void);
-void caps_word_toggle(void);
 bool _caps_word_active = false;
 
 enum layers {
     BASE,
-    NUMERIC,
-    NUM,
     SYM,
     NAV,
     NAV2,
     MOUSE,
+    NUMERIC,
+    NUM,
     UTIL,
     LAYERS,
 };
@@ -25,6 +21,7 @@ enum layers {
  */
 enum {
     TD_BASE_11,
+    TD_BASE_13,
     TD_BASE_23,
     TD_BASE_24,
     TD_BASE_25,
@@ -137,27 +134,28 @@ enum {
 };
 
 #define BASE_11     TD(TD_BASE_11)
+#define BASE_13     TD(TD_BASE_13)
 #define BASE_23     TD(TD_BASE_23)
 #define BASE_24     TD(TD_BASE_24)
 #define BASE_25     TD(TD_BASE_25)
-#define BASE_26     MT(MOD_LGUI, KC_Z)
-//TD(TD_BASE_26)  // z + win
-#define BASE_27     MT(MOD_LCTL, KC_X)
-//TD(TD_BASE_27)  // x + ctrl
-#define BASE_28     MT(MOD_LSFT, KC_C)
-//TD(TD_BASE_28)  // c + shift
-#define BASE_29     MT(MOD_LALT, KC_D)
-//TD(TD_BASE_29)  // d + alt
+//#define BASE_26     MT(MOD_LGUI, KC_Z)
+#define BASE_26     TD(TD_BASE_26)  // z + win
+//#define BASE_27     MT(MOD_LCTL, KC_X)
+#define BASE_27     TD(TD_BASE_27)  // x + ctrl
+//#define BASE_28     MT(MOD_LSFT, KC_C)
+#define BASE_28     TD(TD_BASE_28)  // c + shift
+//#define BASE_29     MT(MOD_LALT, KC_D)
+#define BASE_29     TD(TD_BASE_29)  // d + alt
 #define BASE_31     TD(TD_BASE_31)
 #define BASE_32     TD(TD_BASE_32)
-#define BASE_34     MT(MOD_LALT, KC_H)
-//TD(TD_BASE_34)  // h + alt
-#define BASE_35     MT(MOD_RSFT, DK_COMM)
-//TD(TD_BASE_35)  // , + shift
-#define BASE_36     MT(MOD_RCTL, DK_DOT)
-//TD(TD_BASE_36)  // . + ctrl
-#define BASE_37     MT(MOD_RGUI, S(DK_MINS))
-//TD(TD_BASE_37)  // _ + win
+//#define BASE_34     MT(MOD_LALT, KC_H)
+#define BASE_34     TD(TD_BASE_34)  // h + alt
+//#define BASE_35     MT(MOD_RSFT, DK_COMM)
+#define BASE_35     TD(TD_BASE_35)  // , + shift
+//#define BASE_36     MT(MOD_RCTL, DK_DOT)
+#define BASE_36     TD(TD_BASE_36)  // . + ctrl
+//#define BASE_37     MT(MOD_RGUI, S(DK_MINS))
+#define BASE_37     TD(TD_BASE_37)  // _ + win
 #define BASE_38     TD(TD_BASE_38)
 #define BASE_39     TD(TD_BASE_39)
 #define BASE_40     TD(TD_BASE_40)
@@ -258,21 +256,9 @@ enum {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[BASE] = LAYOUT(
         KC_DEL,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                               KC_J, KC_L,    KC_U,    KC_Y,    BASE_11, KC_BSPC,
-        KC_TAB,   KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                                               KC_M, KC_N,    KC_E,    KC_I,    BASE_23, BASE_24,
+        BASE_13,   KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                                               KC_M, KC_N,    KC_E,    KC_I,    BASE_23, BASE_24,
         BASE_25,  BASE_26, BASE_27, BASE_28, BASE_29, KC_V,     BASE_31,                       BASE_32,   KC_K, BASE_34, BASE_35, BASE_36, BASE_37, BASE_38,
                                             BASE_39, BASE_40, BASE_41, BASE_42,     BASE_43, BASE_44, BASE_45, BASE_46
-    ),
-	[NUMERIC] = LAYOUT(
-        KC_DEL,  KC_F11, KC_F7, KC_F8, KC_F9, KC_F12,                                                   KC_NUM_LOCK, KC_KP_7, KC_KP_8, KC_KP_9, KC_NO, KC_BSPC,
-        KC_TAB,  KC_F10, KC_F4, KC_F5, KC_F6, KC_NO,                                                    KC_0,  KC_KP_4, KC_KP_5, KC_KP_6, KC_DOT, KC_COMM,
-        _______, NUMERIC_26,  NUMERIC_27, NUMERIC_28, NUMERIC_29, KC_NO,  _______,          _______,  KC_NO, NUMERIC_34, NUMERIC_35, NUMERIC_36, NUMERIC_37, _______,
-                                                    _______, _______, _______, _______,     _______, _______, _______, _______
-    ),
-	[NUM] = LAYOUT(
-        KC_DEL, NUM_2,  NUM_3,  NUM_4,  NUM_5,  NUM_6,                                                 NUM_7,   NUM_8,  NUM_9,  NUM_10, NUM_11, KC_BSPC,
-        KC_TAB,  KC_6,   KC_4,   KC_0,   KC_2,   KC_8,                                                  KC_9,    KC_3,   KC_1,   KC_5,   KC_7,   KC_NO,
-        _______, NUM_26, NUM_27, NUM_28, NUM_29, KC_NO,     _______,                       _______,   KC_NO, NUM_34, NUM_35, NUM_36, NUM_37, _______,
-                                            _______, _______, _______, _______,     _______, _______, _______, _______
     ),
 	[SYM] = LAYOUT(
         KC_DEL, KC_NO, DK_EXLM, DK_LCBR, DK_RCBR, DK_DIAE,                                                 DK_QUOT, DK_ASTR, SYM_9, DK_PIPE, DK_QUES, KC_BSPC,
@@ -298,6 +284,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, MOUSE_26, MOUSE_27, MOUSE_28, MOUSE_29, _______,    _______,                       _______,   _______, MOUSE_34, MOUSE_35, MOUSE_36, MOUSE_37, _______,
                                                 _______, KC_ACL2, KC_ACL0, KC_ACL1,     KC_ACL1, KC_ACL0, KC_ACL2, _______
     ),
+	[NUMERIC] = LAYOUT(
+        KC_DEL,  KC_F11, KC_F7, KC_F8, KC_F9, KC_F12,                                                   KC_NUM_LOCK, KC_KP_7, KC_KP_8, KC_KP_9, KC_NO, KC_BSPC,
+        KC_TAB,  KC_F10, KC_F4, KC_F5, KC_F6, KC_NO,                                                    KC_0,  KC_KP_4, KC_KP_5, KC_KP_6, KC_DOT, KC_COMM,
+        _______, NUMERIC_26,  NUMERIC_27, NUMERIC_28, NUMERIC_29, KC_NO,  _______,          _______,  KC_NO, NUMERIC_34, NUMERIC_35, NUMERIC_36, NUMERIC_37, _______,
+                                                    _______, _______, _______, _______,     _______, _______, _______, _______
+    ),
+	[NUM] = LAYOUT(
+        KC_DEL, NUM_2,  NUM_3,  NUM_4,  NUM_5,  NUM_6,                                                 NUM_7,   NUM_8,  NUM_9,  NUM_10, NUM_11, KC_BSPC,
+        KC_TAB,  KC_6,   KC_4,   KC_0,   KC_2,   KC_8,                                                  KC_9,    KC_3,   KC_1,   KC_5,   KC_7,   KC_NO,
+        _______, NUM_26, NUM_27, NUM_28, NUM_29, KC_NO,     _______,                       _______,   KC_NO, NUM_34, NUM_35, NUM_36, NUM_37, _______,
+                                            _______, _______, _______, _______,     _______, _______, _______, _______
+    ),
 	[UTIL] = LAYOUT(
         KC_SLEP, _______, _______, DM_REC1, DM_REC2, RGB_TOG,                                                   KC_SCRL, _______, _______, _______, _______, QK_BOOT,
         UTIL_13, _______, _______, DM_PLY1, DM_PLY2, RGB_M_R,                                                   _______, KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT, _______,
@@ -316,17 +314,17 @@ bool caps_word_active(void)
 {
     return _caps_word_active;
 }
-void caps_word_on()
+void caps_word_on(void)
 {
     _caps_word_active = true;
     add_weak_mods(MOD_LSFT);
 }
-void caps_word_off()
+void caps_word_off(void)
 {
     _caps_word_active = false;
     del_weak_mods(MOD_LSFT);
 }
-void caps_word_toggle()
+void caps_word_toggle(void)
 {
     if (caps_word_active()) {
         caps_word_off();
@@ -340,8 +338,12 @@ void keyboard_post_init_user(void) {
     layer_state_set_user(layer_state);
 }
 
+bool ANY_KEY_PRESSED = false;
+
 bool process_record_kb(uint16_t keycode, keyrecord_t *record)
 {
+    if (record->event.pressed) ANY_KEY_PRESSED = true;
+
     if (BASE == layer_state)
     {
         if (caps_word_active())
@@ -372,6 +374,40 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record)
 }
 
 extern rgblight_config_t rgblight_config;
+
+static bool recording = false;
+
+void default_led_light(void) {
+    // Read RGB Light State
+    rgblight_config.raw = eeconfig_read_rgblight();
+    // If enabled, set white
+    if (rgblight_config.enable) {
+        rgblight_reload_from_eeprom ();
+        // rgblight_enable_noeeprom();
+        //rgblight_sethsv_noeeprom(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
+    } else { // Otherwise go back to disabled
+        rgblight_disable_noeeprom();
+    }
+}
+
+void recording_led_light(void) {
+    rgblight_enable_noeeprom();
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_ALTERNATING);
+}
+
+bool dynamic_macro_valid_key_user(uint16_t keycode, keyrecord_t *record) {
+    return !(keycode == BASE_24);
+}
+
+void dynamic_macro_record_start_user(int8_t direction) {
+    recording = true;
+    recording_led_light();
+}
+
+void dynamic_macro_record_end_user(int8_t direction) {
+    recording = false;
+    default_led_light();
+}
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
@@ -414,16 +450,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgblight_enable_noeeprom();
             rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
             break;
-        default: //  for any other layers, or the default layer
-            // Read RGB Light State
-            rgblight_config.raw = eeconfig_read_rgblight();
-            // If enabled, set white
-            if (rgblight_config.enable) {
-                rgblight_reload_from_eeprom ();
-                // rgblight_enable_noeeprom();
-                //rgblight_sethsv_noeeprom(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
-            } else { // Otherwise go back to disabled
-                rgblight_disable_noeeprom();
+        default: //  for any other layers , or the default layer
+            if (recording) {
+                recording_led_light();
+            }
+            else {
+                default_led_light();
             }
             break;
     }
@@ -435,13 +467,12 @@ Tap-Dance special functions
 */
 typedef enum {
     TD_NONE = 0,            // starting condition
-    TD_UNKNOWN = 1,         // a condition without an action nor a default_kc
-    TD_DEFAULT = 2,         // user pressed keys more times than we have tap actions, but we have default_kc
-    TD_SINGLE_TAP = 4,      // take the tap action
-    TD_SINGLE_HOLD = 8,     // take the hold action
-    TD_DOUBLE_TAP = 16,     // take the double tap action
-    TD_DOUBLE_HOLD = 32,    // take the tap-hold hold action
-    TD_DOUBLE_DEFAULT = 64, // use 2*default_kc (interrupted double tap)
+    TD_DEFAULT = 1,         // causes the td_each(…) function to execute the single_tap action on each furthe keypress
+    TD_SINGLE_TAP = 2,      // take the tap action
+    TD_SINGLE_HOLD = 4,     // take the hold action
+    TD_DOUBLE_TAP = 8,      // take the double tap action
+    TD_TAP_HOLD = 16,    // take the tap-hold hold action
+    TD_UNKNOWN = 128,       // a condition without an action nor a default_kc
 } td_state_t;
 
 // Tap functions should ONLY use the sendXXX functions.
@@ -459,9 +490,8 @@ typedef struct {
     td_tap_action_t single_tap;
     td_hold_action_t single_hold;
     td_tap_action_t double_tap;
-    td_hold_action_t double_hold;
+    td_hold_action_t tap_hold;
     td_state_t state;
-    bool is_press_action;
     bool interrupt_hold;
 } td_tap_user_t;
 
@@ -473,7 +503,6 @@ typedef struct {
             td_reset \
         }, \
         .user_data = &(td_tap_user_t){ \
-            .is_press_action = true, \
             .interrupt_hold = ihold, \
             .state = TD_NONE, \
             .single_tap = { \
@@ -486,7 +515,7 @@ typedef struct {
             .double_tap = { \
                 .tap_fn = DT_ACTION_FN, \
             }, \
-            .double_hold = { \
+            .tap_hold = { \
                 .hold_fn = DH_ACTION_FN, \
                 .reset_fn = DH_RESET_FN \
             } \
@@ -540,18 +569,14 @@ td_state_t decide_tap_dance_outcome(tap_dance_state_t *state, td_tap_user_t *use
     if (state->count == 1) {
         if (state->interrupted) {
             if (!state->pressed) {
-                user_data->is_press_action = false;
                 return TD_SINGLE_TAP;
             } else {
-                user_data->is_press_action = true;
                 return user_data->interrupt_hold ? TD_SINGLE_HOLD : TD_SINGLE_TAP;
             }
         }
         else if (!state->pressed) {
-            user_data->is_press_action = false;
             return TD_SINGLE_TAP;
         } else {
-            user_data->is_press_action = true;
             return TD_SINGLE_HOLD;
         }
     } else if (state->count == 2) {
@@ -560,73 +585,81 @@ td_state_t decide_tap_dance_outcome(tap_dance_state_t *state, td_tap_user_t *use
         // keystrokes of the key, and not the 'double tap' action/macro.
         if (state->interrupted) {
             if (!state->pressed) {
-                user_data->is_press_action = false;
-                return TD_DOUBLE_DEFAULT;
+                return TD_SINGLE_TAP;
             } else {
-                user_data->is_press_action = true;
-                return TD_DOUBLE_HOLD;
+                return TD_TAP_HOLD;
             }
         }
         else if (!state->pressed) {
-            user_data->is_press_action = false;
             return TD_DOUBLE_TAP;
         }
         else {
-            user_data->is_press_action = true;
-            return TD_DOUBLE_HOLD;
+            return TD_TAP_HOLD;
         }
     } else {
         return TD_UNKNOWN;
     }
 }
 
+void td_finished(tap_dance_state_t *state, void *_user_data);
+
 void td_each(tap_dance_state_t *state, void *_user_data) {
     td_tap_user_t *user_data = (td_tap_user_t *)_user_data;
-    if (!user_data->single_tap.tap_fn) return;
 
-    if (user_data->state != TD_NONE) {
-        user_data->single_tap.tap_fn();
+    if (user_data->state == TD_DEFAULT) {
+        if (user_data->single_tap.tap_fn) {
+            user_data->single_tap.tap_fn();
+        }
         return;
     }
 
     // detect when the user "falls off the end", that is, a key is pressed more times than is defined
     switch (state->count) {
     case 1:
-        // single tap or hold is always ok, needs to be as the user may have defined double-tap
-        break;
     case 2:
-        if (!user_data->double_tap.tap_fn && !user_data->double_hold.hold_fn) {
-            // no double actions defined, use the 2*default_kc
-            user_data->state = TD_DEFAULT;
-            user_data->single_tap.tap_fn();
-            user_data->single_tap.tap_fn();
-        }
+        // Just counting keypresses for now…
         break;
     default:
-        user_data->state = TD_UNKNOWN;
+        // This must be the 3'rd tap... hit the key 3 times now, further keypresses
+        // are handled in the top of this function.
         user_data->single_tap.tap_fn();
         user_data->single_tap.tap_fn();
         user_data->single_tap.tap_fn();
+        user_data->state = TD_DEFAULT;
+        ANY_KEY_PRESSED=true;
         break;
     }
 }
 
+uint finished_td = 0;
+
 void td_finished(tap_dance_state_t *state, void *_user_data) {
     td_tap_user_t *user_data = (td_tap_user_t *)_user_data;
 
+    ++finished_td;
+
     user_data->state = decide_tap_dance_outcome(state, user_data);
     switch (user_data->state) {
+        case TD_DEFAULT:
+            // nothing to do... all keypresses were handled in td_each(…)
+            break;
         case TD_SINGLE_TAP:
+            ANY_KEY_PRESSED=true;
             if (user_data->single_tap.tap_fn) {
-                user_data->single_tap.tap_fn();
+                for (int x=0; x<state->count; ++x) {
+                    user_data->single_tap.tap_fn();
+                }
             }
             break;
         case TD_SINGLE_HOLD:
+            if (ANY_KEY_PRESSED)
+            ANY_KEY_PRESSED = false;
             if (user_data->single_hold.hold_fn) {
                 user_data->single_hold.hold_fn();
             }
             break;
         case TD_DOUBLE_TAP:
+            ANY_KEY_PRESSED=true;
             if (user_data->double_tap.tap_fn) {
                 user_data->double_tap.tap_fn();
             }
@@ -635,22 +668,19 @@ void td_finished(tap_dance_state_t *state, void *_user_data) {
                 user_data->single_tap.tap_fn();
             }
             break;
-        case TD_DOUBLE_HOLD:
-            if (user_data->double_hold.hold_fn) {
-                user_data->double_hold.hold_fn();
+        case TD_TAP_HOLD:
+            if (user_data->tap_hold.hold_fn) {
+                ANY_KEY_PRESSED = false;
+                user_data->tap_hold.hold_fn();
             } else {
                 if (user_data->single_tap.tap_fn) {
+                    ANY_KEY_PRESSED = true;
                     user_data->single_tap.tap_fn();
                 }
                 if (user_data->single_hold.hold_fn) {
+                    ANY_KEY_PRESSED = false;
                     user_data->single_hold.hold_fn();
                 }
-            }
-            break;
-        case TD_DOUBLE_DEFAULT:
-            if (user_data->single_tap.tap_fn) {
-                user_data->single_tap.tap_fn();
-                user_data->single_tap.tap_fn();
             }
             break;
         default: break;
@@ -660,24 +690,46 @@ void td_finished(tap_dance_state_t *state, void *_user_data) {
 void td_reset(tap_dance_state_t *state, void *_user_data) {
     td_tap_user_t *user_data = (td_tap_user_t *)_user_data;
 
+    --finished_td;
+
     switch (user_data->state) {
         case TD_SINGLE_HOLD:
             if (user_data->single_hold.reset_fn) {
                 user_data->single_hold.reset_fn();
             }
+            if (!finished_td && !ANY_KEY_PRESSED && user_data->single_tap.tap_fn) {
+                user_data->single_tap.tap_fn();
+            }
             break;
-        case TD_DOUBLE_HOLD:
-            if (user_data->double_hold.reset_fn) {
-                user_data->double_hold.reset_fn();
+        case TD_TAP_HOLD:
+            if (user_data->tap_hold.reset_fn) {
+                user_data->tap_hold.reset_fn();
             } else if (user_data->single_hold.reset_fn) {
                 user_data->single_hold.reset_fn();
+            }
+            if (!finished_td && !ANY_KEY_PRESSED) {
+                if (!user_data->tap_hold.hold_fn) {
+                    // without a tap-hold function, single-tap was pressed before holding the single-hold
+                    if(user_data->single_tap.tap_fn) {
+                        user_data->single_tap.tap_fn();
+                    }
+                }
+                else {
+                    // with a tap-hold function, we haven't pressed any keys yet
+                    if(user_data->double_tap.tap_fn) {
+                        user_data->double_tap.tap_fn();
+                    }
+                    else if(user_data->single_tap.tap_fn) {
+                        user_data->single_tap.tap_fn();
+                    }
+                }
             }
             break;
         default:
             break;
     }
     user_data->state = TD_NONE;
-    user_data->is_press_action = true;
+    ANY_KEY_PRESSED = true;
 }
 
 /*
@@ -686,37 +738,66 @@ Define Tap-Dance functions and the lookup table
 
 // GENERAL
 TDF_TAP(TD_BASE_11, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     tap_code16(DK_QUES);
 })
 TDF_HOLD(TD_BASE_11, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     tap_code(DK_ARNG);
+    ANY_KEY_PRESSED = true;
 }, {})
+
+TDF_TAP(TD_BASE_13, {
+    caps_word_off();
+    tap_code16(KC_TAB);
+})
 
 TDF_TAP(TD_BASE_23, tap_code(KC_O))
 TDF_HOLD(TD_BASE_23, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     tap_code(DK_AE);
+    ANY_KEY_PRESSED = true;
 }, {})
 
-TDF_HOLD(TD_BASE_24, {
-    if (caps_word_active()) {
-        caps_word_off();
+TDF_TAP(TD_BASE_24, {
+    keyrecord_t record = {
+        .event = {
+            .pressed = false
+        }
+    };
+    process_dynamic_macro(QK_DYNAMIC_MACRO_PLAY_1, &record);
+})
+TDF_DTAP(TD_BASE_24, {
+    if (!recording) {
+        keyrecord_t record = {
+            .event = {
+                .pressed = false
+            }
+        };
+        process_dynamic_macro(QK_DYNAMIC_MACRO_RECORD_START_1, &record);
+    } else {
+        keyrecord_t record = {
+            .event = {
+                .pressed = true
+            }
+        };
+        process_dynamic_macro(QK_DYNAMIC_MACRO_RECORD_STOP, &record);
     }
+})
+TDF_HOLD(TD_BASE_24, {
+    caps_word_off();
     tap_code(DK_OSTR);
+    ANY_KEY_PRESSED = true;
 }, {})
 TDF_TAPHOLD(TD_BASE_24, {
-        caps_word_toggle();
+    caps_word_toggle();
+    ANY_KEY_PRESSED = true;
 }, {})
 
-TDF_HOLD(TD_BASE_25, layer_on(LAYERS), layer_off(LAYERS))
+TDF_HOLD(TD_BASE_25, {
+    layer_on(LAYERS);
+    ANY_KEY_PRESSED = true;
+}, layer_off(LAYERS))
 
 TDF_TAP(TD_BASE_26, tap_code(KC_Z))
 TDF_HOLD(TD_BASE_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
@@ -726,37 +807,33 @@ TDF_HOLD(TD_BASE_27, register_code(KC_LCTL), unregister_code(KC_LCTL))
 
 TDF_TAP(TD_BASE_28, tap_code(KC_C))
 TDF_HOLD(TD_BASE_28, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     register_code(KC_LSFT);
 }, unregister_code(KC_LSFT))
-TDF_TAPHOLD(TD_BASE_28, {
-    caps_word_toggle();
-}, {})
 
 TDF_TAP(TD_BASE_29, tap_code(KC_D))
 TDF_HOLD(TD_BASE_29, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_BASE_31, tap_code(KC_ENTER))
-TDF_HOLD(TD_BASE_31, layer_on(UTIL), layer_off(UTIL))
+TDF_HOLD(TD_BASE_31, {
+    layer_on(UTIL);
+    ANY_KEY_PRESSED = true;
+}, layer_off(UTIL))
 
 TDF_TAP(TD_BASE_32, tap_code(KC_ENTER))
-TDF_HOLD(TD_BASE_32, layer_on(UTIL), layer_off(UTIL))
+TDF_HOLD(TD_BASE_32, {
+    layer_on(UTIL);
+    ANY_KEY_PRESSED = true;
+}, layer_off(UTIL))
 
 TDF_TAP(TD_BASE_34, tap_code(DK_H))
 TDF_HOLD(TD_BASE_34, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_BASE_35, tap_code(DK_COMM))
 TDF_HOLD(TD_BASE_35, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     register_code(KC_RSFT);
 }, unregister_code(KC_RSFT))
-TDF_TAPHOLD(TD_BASE_35, {
-    caps_word_toggle();
-}, {})
 
 TDF_TAP(TD_BASE_36, tap_code(DK_DOT))
 TDF_HOLD(TD_BASE_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
@@ -764,20 +841,28 @@ TDF_HOLD(TD_BASE_36, register_code(KC_RCTL), unregister_code(KC_RCTL))
 TDF_TAP(TD_BASE_37, tap_code16(S(DK_MINS)))
 TDF_HOLD(TD_BASE_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
-TDF_HOLD(TD_BASE_38, layer_on(LAYERS), layer_off(LAYERS))
+TDF_HOLD(TD_BASE_38, {
+    layer_on(LAYERS);
+    ANY_KEY_PRESSED = true;
+}, layer_off(LAYERS))
 
-TDF_TAP(TD_BASE_39, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
-})
 TDF_HOLD(TD_BASE_39, layer_on(NUMERIC), layer_off(NUMERIC))
 
 TDF_TAP(TD_BASE_40, {
     if (caps_word_active()) {
-        caps_word_off();
+        tap_code16(DK_MINS);
+        return;
     }
-    tap_code16(S(DK_DOT));
+    tap_code(KC_SPC);
+})
+TDF_DTAP(TD_BASE_40, {
+    if (caps_word_active()) {
+        caps_word_off();
+        tap_code(KC_SPC);
+        return;
+    }
+    tap_code(KC_SPC);
+    tap_code(KC_SPC);
 })
 TDF_HOLD(TD_BASE_40, layer_on(NUM), layer_off(NUM))
 
@@ -789,9 +874,7 @@ TDF_TAP(TD_BASE_41, {
     tap_code(KC_SPC);
 })
 TDF_HOLD(TD_BASE_41, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     layer_on(NAV);
 }, layer_off(NAV))
 TDF_DTAP(TD_BASE_41, {
@@ -804,25 +887,32 @@ TDF_DTAP(TD_BASE_41, {
     tap_code(KC_SPC);
 })
 
-TDF_TAP(TD_BASE_42, tap_code(KC_ESC))
+TDF_TAP(TD_BASE_42, {
+    caps_word_off();
+    tap_code16(S(DK_DOT)); // :
+})
+TDF_DTAP(TD_BASE_42, {
+    caps_word_off();
+    tap_code16(S(DK_COMM)); // ;
+})
 TDF_HOLD(TD_BASE_42, layer_on(SYM), layer_off(SYM))
 TDF_TAPHOLD(TD_BASE_42, layer_on(MOUSE), layer_off(MOUSE))
 
-TDF_TAP(TD_BASE_43, tap_code(KC_ESC))
+TDF_TAP(TD_BASE_43, {
+    tap_code(KC_ESC);
+})
 TDF_HOLD(TD_BASE_43, layer_on(NAV), layer_off(NAV))
 TDF_TAPHOLD(TD_BASE_43, layer_on(MOUSE), layer_off(MOUSE))
 
 TDF_TAP(TD_BASE_44, {
     if (caps_word_active()) {
-        tap_code16(DK_MINS);
+        tap_code16(DK_MINS); // - => _
         return;
     }
     tap_code(KC_SPC);
 })
 TDF_HOLD(TD_BASE_44, {
-    if (caps_word_active()) {
-        caps_word_off();
-    }
+    caps_word_off();
     layer_on(SYM);
 }, layer_off(SYM))
 TDF_DTAP(TD_BASE_44, {
@@ -836,14 +926,23 @@ TDF_DTAP(TD_BASE_44, {
 })
 
 TDF_TAP(TD_BASE_45, {
-    caps_word_off();
-    tap_code16(S(DK_COMM));
+    if (caps_word_active()) {
+        tap_code16(DK_MINS); // - => _
+        return;
+    }
+    tap_code(KC_SPC);
+})
+TDF_DTAP(TD_BASE_45, {
+    if (caps_word_active()) {
+        caps_word_off();
+        tap_code(KC_SPC);
+        return;
+    }
+    tap_code(KC_SPC);
+    tap_code(KC_SPC);
 })
 TDF_HOLD(TD_BASE_45, layer_on(NUM), layer_off(NUM))
 
-TDF_TAP(TD_BASE_46, {
-    caps_word_off();
-})
 TDF_HOLD(TD_BASE_46, layer_on(NUMERIC), layer_off(NUMERIC))
 
 TDF_HOLD(TD_NUMERIC_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
@@ -912,13 +1011,25 @@ TDF_TAP(TD_NUM_37, tap_code16(S(DK_MINS)))
 TDF_HOLD(TD_NUM_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
 TDF_TAP(TD_SYM_9, tap_code16(DK_SLSH))
-TDF_HOLD(TD_SYM_9, register_code16(DK_BSLS), unregister_code16(DK_BSLS))
-TDF_TAPHOLD(TD_SYM_9, register_code16(DK_SLSH), unregister_code16(DK_SLSH))
+TDF_HOLD(TD_SYM_9, {
+    register_code16(DK_BSLS);
+    ANY_KEY_PRESSED = true;
+}, unregister_code16(DK_BSLS))
+TDF_TAPHOLD(TD_SYM_9, {
+    register_code16(DK_SLSH);
+    ANY_KEY_PRESSED = true;
+}, unregister_code16(DK_SLSH))
 
 TDF_TAP(TD_SYM_13, { tap_code16(DK_HALF); })
 TDF_DTAP(TD_SYM_13, { tap_code16(DK_PND); })
-TDF_HOLD(TD_SYM_13, { tap_code16(ALGR(KC_E)); }, {})
-TDF_TAPHOLD(TD_SYM_13, { tap_code16(DK_SECT); }, {})
+TDF_HOLD(TD_SYM_13, {
+    tap_code16(ALGR(KC_E));
+    ANY_KEY_PRESSED = true;
+}, {})
+TDF_TAPHOLD(TD_SYM_13, {
+    tap_code16(DK_SECT);
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_SYM_26, tap_code16(DK_AT))
 TDF_HOLD(TD_SYM_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
@@ -933,8 +1044,14 @@ TDF_TAP(TD_SYM_29, tap_code16(DK_RBRC))
 TDF_HOLD(TD_SYM_29, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_SYM_33, tap_code16(DK_GRV))
-TDF_HOLD(TD_SYM_33, register_code16(DK_ACUT), unregister_code16(DK_ACUT))
-TDF_TAPHOLD(TD_SYM_33, register_code16(DK_GRV), unregister_code16(DK_GRV))
+TDF_HOLD(TD_SYM_33, {
+    register_code16(DK_ACUT);
+    ANY_KEY_PRESSED = true;
+}, unregister_code16(DK_ACUT))
+TDF_TAPHOLD(TD_SYM_33, {
+    register_code16(DK_GRV);
+    ANY_KEY_PRESSED = true;
+}, unregister_code16(DK_GRV))
 
 TDF_TAP(TD_SYM_34, tap_code16(DK_PLUS))
 TDF_HOLD(TD_SYM_34, register_code(KC_LALT), unregister_code(KC_LALT))
@@ -951,13 +1068,19 @@ TDF_TAP(TD_SYM_41, tap_code(KC_SPC))
 TDF_HOLD(TD_SYM_41, layer_on(NAV2), layer_off(NAV2))
 
 TDF_TAP(TD_NAV_1, tap_code16(KC_DEL))
-TDF_HOLD(TD_NAV_1, SEND_STRING(SS_LSFT(SS_TAP(X_END)) SS_DELAY(100) SS_TAP(X_DELETE)), {})
+TDF_HOLD(TD_NAV_1, {
+    SEND_STRING(SS_LSFT(SS_TAP(X_END)) SS_DELAY(100) SS_TAP(X_DELETE));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_NAV_7, tap_code16(KC_PAUSE))
 TDF_DTAP(TD_NAV_7, tap_code16(KC_INS))
 
 TDF_TAP(TD_NAV_12, tap_code16(KC_BSPC))
-TDF_HOLD(TD_NAV_12, SEND_STRING(SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_BACKSPACE)), {})
+TDF_HOLD(TD_NAV_12, {
+    SEND_STRING(SS_LSFT(SS_TAP(X_HOME)) SS_DELAY(100) SS_TAP(X_BACKSPACE));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_NAV_14, { tap_code16(C(KC_SLSH)); }) // Go back
 TDF_HOLD(TD_NAV_14, register_code16(KC_LGUI), unregister_code16(KC_LGUI))
@@ -976,8 +1099,14 @@ TDF_HOLD(TD_NAV_17, register_code16(KC_LALT), unregister_code16(KC_LALT))
 
 TDF_TAP(TD_NAV_18, tap_code16(KC_F12))   // Go to definition
 TDF_DTAP(TD_NAV_18, tap_code16(S(KC_F12))) // Go to references
-TDF_HOLD(TD_NAV_18, tap_code16(C(S(KC_F12))), {}) // Peek definition
-TDF_TAPHOLD(TD_NAV_18, tap_code16(A(S(KC_F12))), {}) // Find all references
+TDF_HOLD(TD_NAV_18, {
+    tap_code16(C(S(KC_F12)));
+    ANY_KEY_PRESSED = true;
+}, {}) // Peek definition
+TDF_TAPHOLD(TD_NAV_18, {
+    tap_code16(A(S(KC_F12)));
+    ANY_KEY_PRESSED = true;
+}, {}) // Find all references
 
 TDF_TAP(TD_NAV_19, tap_code16(C(S(KC_DOT)))) // Breadcrumb
 
@@ -995,8 +1124,14 @@ TDF_HOLD(TD_NAV_29, register_code(KC_LALT), unregister_code(KC_LALT))
 
 TDF_TAP(TD_NAV_33, { tap_code16(KC_PSCR); })
 TDF_DTAP(TD_NAV_33, { tap_code16(A(KC_PSCR)); })
-TDF_HOLD(TD_NAV_33, { tap_code16(G(KC_PSCR)); }, {})
-TDF_TAPHOLD(TD_NAV_33, { tap_code16(G(S(KC_PSCR))); }, {})
+TDF_HOLD(TD_NAV_33, {
+    tap_code16(G(KC_PSCR));
+    ANY_KEY_PRESSED = true;
+}, {})
+TDF_TAPHOLD(TD_NAV_33, {
+    tap_code16(G(S(KC_PSCR)));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_NAV_34, {
     tap_code16(C(KC_J));
@@ -1014,7 +1149,7 @@ TDF_TAP(TD_NAV_37, { tap_code16(KC_APP); })
 TDF_HOLD(TD_NAV_37, register_code(KC_RGUI), unregister_code(KC_RGUI))
 
 TDF_TAP(TD_NAV_44, tap_code(KC_SPC))
-TDF_HOLD(TD_NAV_44, layer_on(NAV2), layer_off(NAV2))
+TDF_HOLD(TD_NAV_44, layer_on(NUM), layer_off(NUM))
 
 TDF_TAP(TD_NAV2_20, {
     tap_code16(C(KC_J));
@@ -1025,11 +1160,11 @@ TDF_DTAP(TD_NAV2_20, {
     tap_code16(KC_UP);
 })
 TDF_HOLD(TD_NAV2_20,
-         {
-             tap_code16(C(KC_J));
-             tap_code16(A(C(KC_UP)));
-         },
-         {})
+{
+    tap_code16(C(KC_J));
+    tap_code16(A(C(KC_UP)));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_NAV2_21, {
     tap_code16(C(KC_J));
@@ -1040,11 +1175,11 @@ TDF_DTAP(TD_NAV2_21, {
     tap_code16(KC_DOWN);
 })
 TDF_HOLD(TD_NAV2_21,
-    {
-        tap_code16(C(KC_J));
-        tap_code16(A(C(KC_DOWN)));
-    },
-    {})
+{
+    tap_code16(C(KC_J));
+    tap_code16(A(C(KC_DOWN)));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_NAV2_22, {
     tap_code16(C(KC_J));
@@ -1055,11 +1190,11 @@ TDF_DTAP(TD_NAV2_22, {
     tap_code16(KC_LEFT);
 })
 TDF_HOLD(TD_NAV2_22,
-         {
-             tap_code16(C(KC_J));
-             tap_code16(A(C(KC_LEFT)));
-         },
-         {})
+{
+    tap_code16(C(KC_J));
+    tap_code16(A(C(KC_LEFT)));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_NAV2_23, {
     tap_code16(C(KC_J));
@@ -1070,11 +1205,11 @@ TDF_DTAP(TD_NAV2_23, {
     tap_code16(KC_RIGHT);
 })
 TDF_HOLD(TD_NAV2_23,
-         {
-             tap_code16(C(KC_J));
-             tap_code16(A(C(KC_RIGHT)));
-         },
-         {})
+{
+    tap_code16(C(KC_J));
+    tap_code16(A(C(KC_RIGHT)));
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_HOLD(TD_NAV2_26, register_code(KC_LGUI), unregister_code(KC_LGUI))
 TDF_HOLD(TD_NAV2_27, register_code(KC_LCTL), unregister_code(KC_LCTL))
@@ -1098,50 +1233,45 @@ TDF_TAP(TD_UTIL_13, { SEND_STRING(SS_TAP(X_SCRL) SS_DELAY(25) SS_TAP(X_SCRL) SS_
 TDF_DTAP(TD_UTIL_13, { SEND_STRING(SS_TAP(X_SCRL) SS_DELAY(25) SS_TAP(X_SCRL) SS_DELAY(25) "2"); })
 
 TDF_TAP(TD_UTIL_35, { tap_code16(KC_MPLY); })
-TDF_HOLD(TD_UTIL_35, { tap_code16(KC_MUTE); }, {})
+TDF_HOLD(TD_UTIL_35, {
+    tap_code16(KC_MUTE);
+    ANY_KEY_PRESSED = true;
+}, {})
 
 TDF_TAP(TD_UTIL_BACK_TO_BASICS, {
     layer_move(BASE);
-    //unregister_code(KC_LCTL);
-    //unregister_code(KC_LSFT);
-    //unregister_code(KC_LALT);
-    //unregister_code(KC_LGUI);
-    //unregister_code(KC_RCTL);
-    //unregister_code(KC_RSFT);
-    //unregister_code(KC_RALT);
-    //unregister_code(KC_RGUI);
     clear_mods();
     clear_weak_mods();
     _caps_word_active = false;
-    //caps_word_off();
 })
 
 tap_dance_action_t tap_dance_actions[] = {
-    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_11),
-    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_23),
-    TDA_NOINTERRUPT_HOLD_TAPHOLD(TD_BASE_24),
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_11),       // å
+    TDA_TAP(TD_BASE_13),
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_23),       // æ
+    TDA_NOINTERRUPT_TAP_HOLD_DTAP_TAPHOLD(TD_BASE_24),   // ø
     TDA_NOINTERRUPT_HOLD(TD_BASE_25),
-    //TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_26),
-    //TDA_TAP_HOLD(TD_BASE_27),
-    //TDA_TAP_HOLD_TAPHOLD(TD_BASE_28),
-    //TDA_TAP_HOLD(TD_BASE_29),
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_26),   // z
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_27),   // x
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_28),   // c
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_29),   // d
     TDA_TAP_HOLD(TD_BASE_31),
     TDA_TAP_HOLD(TD_BASE_32),
-    //TDA_TAP_HOLD(TD_BASE_34),
-    //TDA_TAP_HOLD_TAPHOLD(TD_BASE_35),
-    //TDA_TAP_HOLD(TD_BASE_36),
-    //TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_37),
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_34),   // h
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_35),   // ,
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_36),   // .
+    TDA_NOINTERRUPT_TAP_HOLD(TD_BASE_37),   // -
     TDA_NOINTERRUPT_HOLD(TD_BASE_38),
 
-    TDA_TAP_HOLD(TD_BASE_39),
-    TDA_TAP_HOLD(TD_BASE_40),
-    TDA_TAP_HOLD_DTAP(TD_BASE_41),
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_42),
+    TDA_HOLD(TD_BASE_39),                   // numeric
+    TDA_TAP_HOLD_DTAP(TD_BASE_40),          // spc+num
+    TDA_TAP_HOLD_DTAP(TD_BASE_41),          // spc+nav
+    TDA_TAP_HOLD_DTAP_TAPHOLD(TD_BASE_42),  // :+;+sym+mouse
 
-    TDA_TAP_HOLD_TAPHOLD(TD_BASE_43),
-    TDA_TAP_HOLD_DTAP(TD_BASE_44),
-    TDA_TAP_HOLD(TD_BASE_45),
-    TDA_TAP_HOLD(TD_BASE_46),
+    TDA_TAP_HOLD_TAPHOLD(TD_BASE_43),       // esc+nav+mouse
+    TDA_TAP_HOLD_DTAP(TD_BASE_44),          // spc+sym
+    TDA_TAP_HOLD_DTAP(TD_BASE_45),          // spc+num
+    TDA_HOLD(TD_BASE_46),                   // numeric
 
     TDA_HOLD(TD_NUMERIC_26),
     TDA_TAP_HOLD(TD_NUMERIC_27),
@@ -1187,10 +1317,10 @@ tap_dance_action_t tap_dance_actions[] = {
     TDA_TAP_HOLD(TD_NAV_1),
     TDA_TAP_DTAP(TD_NAV_7),
     TDA_TAP_HOLD(TD_NAV_12),
-    TDA_TAP(TD_NAV_14),
-    TDA_TAP_DTAP(TD_NAV_15),
-    TDA_TAP_DTAP(TD_NAV_16),
-    TDA_TAP_DTAP(TD_NAV_17),
+    TDA_TAP_HOLD(TD_NAV_14),
+    TDA_TAP_HOLD_DTAP(TD_NAV_15),
+    TDA_TAP_HOLD_DTAP(TD_NAV_16),
+    TDA_TAP_HOLD_DTAP(TD_NAV_17),
     TDA_TAP_HOLD_DTAP_TAPHOLD(TD_NAV_18),
     TDA_TAP(TD_NAV_19),
     TDA_TAP_HOLD(TD_NAV_26),
