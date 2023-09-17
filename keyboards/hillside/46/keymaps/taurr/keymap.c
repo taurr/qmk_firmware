@@ -268,19 +268,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 	[NAV] = LAYOUT(
     NAV_1,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                                      NAV_7,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,  NAV_12,
-    KC_NO, NAV_14,  NAV_15,  NAV_16,  NAV_17,  NAV_18,                                               NAV_19, KC_LEFT, KC_UP,   KC_DOWN, KC_RGHT, KC_NO,
-    _______, NAV_26,  NAV_27,  NAV_28,  NAV_29,  KC_NO,     _______,                    _______,     NAV_33, NAV_34,  NAV_35,  NAV_36,  NAV_37,  _______,
+    KC_NO, NAV_14,  NAV_15,  NAV_16,  NAV_17,  NAV_18,                                               NAV_19, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_NO,
+    _______, NAV_26,  NAV_27,  NAV_28,  NAV_29,  KC_NO,     _______,                    _______,     NAV_33, NAV_34,  NAV_35 , NAV_36 , NAV_37,  _______,
                                             _______,_______,_______,_______,    _______, NAV_44,_______,_______
     ),
 	[NAV2] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                                              _______, _______, _______, _______, _______, _______,
-        _______, G(C(KC_LEFT)), G(C(KC_UP)), G(C(KC_DOWN)), G(C(KC_RGHT)), _______,                                              _______, NAV2_20, NAV2_21, NAV2_22, NAV2_23, _______,
+        _______, G(C(KC_LEFT)), G(C(KC_DOWN)), G(C(KC_UP)), G(C(KC_RGHT)), _______,                        _______, NAV2_20, NAV2_21, NAV2_22, NAV2_23, _______,
         _______, NAV2_26, NAV2_27, NAV2_28, NAV2_29, _______,    _______,                       _______,   _______, NAV2_34, NAV2_35, NAV2_36, NAV2_37, _______,
                                                 _______, _______, _______, _______,     _______, _______, _______, _______
     ),
 	[MOUSE] = LAYOUT(
         _______, _______,  KC_BTN6,  KC_BTN4,  KC_BTN5,  _______,                                              _______, KC_WH_L,  KC_WH_U, KC_WH_D,   KC_WH_R,  _______,
-        _______, _______,  KC_BTN2,  KC_BTN3,  KC_BTN1,  _______,                                              _______, KC_MS_L,  KC_MS_U,  KC_MS_D,  KC_MS_R,  _______,
+        _______, _______,  KC_BTN2,  KC_BTN3,  KC_BTN1,  _______,                                              _______, KC_MS_L,  KC_MS_D , KC_MS_U,  KC_MS_R,  _______,
         _______, MOUSE_26, MOUSE_27, MOUSE_28, MOUSE_29, _______,    _______,                       _______,   _______, MOUSE_34, MOUSE_35, MOUSE_36, MOUSE_37, _______,
                                                 _______, KC_ACL2, KC_ACL0, KC_ACL1,     KC_ACL1, KC_ACL0, KC_ACL2, _______
     ),
@@ -298,7 +298,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 	[UTIL] = LAYOUT(
         KC_SLEP, _______, _______, DM_REC1, DM_REC2, RGB_TOG,                                                   KC_SCRL, _______, _______, _______, _______, QK_BOOT,
-        UTIL_13, _______, _______, DM_PLY1, DM_PLY2, RGB_M_R,                                                   _______, KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT, _______,
+        UTIL_13, _______, _______, DM_PLY1, DM_PLY2, RGB_M_R,                                                   _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
         _______, _______, _______, KC_CALC, _______, _______,   RST_LAY,                            RST_LAY,    _______, _______, UTIL_35, _______, _______, _______,
                                             _______, _______, _______, _______,     _______, _______, _______, _______
     ),
@@ -1168,31 +1168,31 @@ TDF_HOLD(TD_NAV2_20,
 
 TDF_TAP(TD_NAV2_21, {
     tap_code16(C(KC_J));
-    tap_code16(KC_DOWN);
+    tap_code16(KC_LEFT);
 })
 TDF_DTAP(TD_NAV2_21, {
     tap_code16(C(KC_K));
-    tap_code16(KC_DOWN);
+    tap_code16(KC_LEFT);
 })
 TDF_HOLD(TD_NAV2_21,
 {
     tap_code16(C(KC_J));
-    tap_code16(A(C(KC_DOWN)));
+    tap_code16(A(C(KC_LEFT)));
     ANY_KEY_PRESSED = true;
 }, {})
 
 TDF_TAP(TD_NAV2_22, {
     tap_code16(C(KC_J));
-    tap_code16(KC_LEFT);
+    tap_code16(KC_DOWN);
 })
 TDF_DTAP(TD_NAV2_22, {
     tap_code16(C(KC_K));
-    tap_code16(KC_LEFT);
+    tap_code16(KC_DOWN);
 })
 TDF_HOLD(TD_NAV2_22,
 {
     tap_code16(C(KC_J));
-    tap_code16(A(C(KC_LEFT)));
+    tap_code16(A(C(KC_DOWN)));
     ANY_KEY_PRESSED = true;
 }, {})
 
